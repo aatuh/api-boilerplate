@@ -1,0 +1,7 @@
+# All dotfiles
+**/.*
+!.gitignore
+!.env.*.example
+
+**/tmp/
+**/bin/

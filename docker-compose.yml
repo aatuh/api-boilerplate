@@ -1,0 +1,89 @@
+services:
+  db:
+    image: postgres:16
+    ports: ["${POSTGRES_PORT:-5432}:5432"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-foo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-foo}
+      POSTGRES_DB: ${POSTGRES_DB:-foo}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    container_name: foo-api
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.dev
+    depends_on:
+      db: { condition: service_healthy }
+    env_file:
+      - ./api/.env
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ./api:/app
+      - api_tmp:/app/tmp
+      - api_pkg:/go/pkg/mod
+      - api_gocache:/root/.cache/go-build
+    init: true
+    stop_signal: SIGINT
+    stop_grace_period: 1s
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:8000/health || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    command: >-
+      sh -c '
+        reflex -r "\\.go$" -s -- sh -c "go run ./cmd/api"
+      '
+
+  test:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.dev
+    # Use inline env to avoid requiring a dotfile in repo
+    environment:
+      - GOCACHE=/root/.cache/go-build
+      - GOMODCACHE=/go/pkg/mod
+    env_file:
+      - api/.env.test
+    volumes:
+      - ./api:/app
+      - test_tmp:/app/tmp
+      - test_pkg:/go/pkg/mod
+      - test_gocache:/root/.cache/go-build
+    command: ["sh", "-c", "/app/scripts/test.sh"]
+    profiles: ["test"]
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+
+volumes:
+  db_data:
+  api_tmp:
+  api_pkg:
+  api_gocache:
+  test_tmp:
+  test_pkg:
+  test_gocache:
