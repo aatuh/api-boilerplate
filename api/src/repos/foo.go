@@ -1,11 +1,11 @@
 package repos
 
 import (
-	"api/src/services/foosvc"
+	"api-boilerplate/src/services/foosvc"
 	"context"
 
+	"github.com/aatuh/api-toolkit/adapters/txpostgres"
 	"github.com/aatuh/api-toolkit/ports"
-	"github.com/aatuh/api-toolkit/txpostgres"
 )
 
 // FooRepo is a Postgres adapter for foosvc.Repo.

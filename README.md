@@ -13,6 +13,9 @@ make dev
 # Apply migrations (inside docker)
 cd api && make migrate-up
 
+# Build local binary with stamped version info
+cd api && make build-bin
+
 # Health check and docs
 make health   # GET http://localhost:8000/health
               # Docs at http://localhost:8000/docs
@@ -23,7 +26,7 @@ make health   # GET http://localhost:8000/health
 ```plaintext
 .
 ├── Makefile                 # top-level helpers that delegate to ./api
-├── docker-compose.yml       # dev stack (api, db, test runner)
+├── docker compose.yml       # dev stack (api, db, test runner)
 ├── README.md                # this file
 └── api/                     # the actual API service
     ├── Makefile             # API tasks (swag, test, lint, health, migrate)
@@ -77,7 +80,7 @@ make health   # GET http://localhost:8000/health
 - `api/.env.example`   example of required vars for API
 - `api/.env.test`      local test env (not committed)
 - `api/.env.test.example` example for tests
-- `/.env`              docker-compose env (not committed)
+- `/.env`              docker compose env (not committed)
 
 Rules:
 
@@ -107,7 +110,21 @@ make swag                 # regen swagger from cmd/api/main.go
 make migrate-up           # apply migrations
 make migrate-down         # rollback (dangerous; off in server)
 make migrate-status       # show applied/pending migrations
+make build-bin            # go build with version metadata (bin/api)
 ```
+
+## Build metadata
+
+To embed version info in the binary, run `cd api && make build-bin`. The
+target stamps the git describe, commit SHA, and UTC build time via `-ldflags`
+before producing `bin/api`. You can override these values:
+
+```bash
+cd api
+VERSION=1.2.3 COMMIT=$(git rev-parse HEAD) DATE=$(date -u +%FT%TZ) make build-bin
+```
+
+The version endpoint in `cmd/api` picks up the injected values automatically.
 
 ## Migrations
 

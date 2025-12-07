@@ -1,58 +1,16 @@
-basePath: /
 definitions:
-  handlers.ErrorResponse:
+  types.CreateFooDTO:
     properties:
-      error:
-        example: bad request
+      name:
         type: string
-      message:
+      namespace:
         type: string
-    type: object
-  health.DetailedHealthResponse:
-    properties:
-      checks:
-        additionalProperties:
-          $ref: '#/definitions/health.HealthResult'
-        type: object
-      status:
-        example: healthy
+      org_id:
         type: string
-      summary:
-        $ref: '#/definitions/health.HealthSummary'
-      timestamp:
-        type: string
-    type: object
-  health.HealthResult:
-    properties:
-      details: {}
-      duration:
-        description: Duration in nanoseconds
-        type: integer
-      message:
-        type: string
-      status:
-        example: healthy
-        type: string
-      timestamp:
-        type: string
-    type: object
-  health.HealthSummary:
-    properties:
-      degraded:
-        example: 0
-        type: integer
-      healthy:
-        example: 3
-        type: integer
-      total:
-        example: 3
-        type: integer
-      unhealthy:
-        example: 0
-        type: integer
-      unknown:
-        example: 0
-        type: integer
+    required:
+    - name
+    - namespace
+    - org_id
     type: object
   types.FooDTO:
     properties:
@@ -103,6 +61,24 @@ definitions:
       total:
         type: integer
     type: object
+  types.Problem:
+    properties:
+      detail:
+        example: name is required
+        type: string
+      instance:
+        example: /api/v1/foo/123
+        type: string
+      status:
+        example: 400
+        type: integer
+      title:
+        example: Bad Request
+        type: string
+      type:
+        example: https://example.com/validation-error
+        type: string
+    type: object
   types.UpdateFooDTO:
     properties:
       name:
@@ -110,25 +86,12 @@ definitions:
     required:
     - name
     type: object
-host: localhost:8000
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: REST API Documentation
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-  termsOfService: http://swagger.io/terms/
-  title: API Documentation
-  version: "1.0"
+  contact: {}
 paths:
   /api/v1/foo:
     get:
-      consumes:
-      - application/json
-      description: Get a list of foo resources
+      description: List foos filtered by org and namespace
       parameters:
       - description: Organization ID
         in: query
@@ -140,13 +103,11 @@ paths:
         name: namespace
         required: true
         type: string
-      - default: 50
-        description: Limit
+      - description: Page size
         in: query
         name: limit
         type: integer
-      - default: 0
-        description: Offset
+      - description: Offset
         in: query
         name: offset
         type: integer
@@ -158,47 +119,66 @@ paths:
       - application/json
       responses:
         "200":
-          description: List of foos
+          description: OK
           schema:
             $ref: '#/definitions/types.FooListResponse'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+            $ref: '#/definitions/types.Problem'
       summary: List foos
       tags:
-      - foo
-  /api/v1/foo/{id}:
-    delete:
+      - Foo
+    post:
       consumes:
       - application/json
-      description: Delete a specific foo resource
+      description: Create a new foo resource
+      parameters:
+      - description: Foo payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateFooDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/types.FooDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Problem'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/types.Problem'
+      summary: Create foo
+      tags:
+      - Foo
+  /api/v1/foo/{id}:
+    delete:
+      description: Delete a foo by ID
       parameters:
       - description: Foo ID
         in: path
         name: id
         required: true
         type: string
-      produces:
-      - application/json
       responses:
         "204":
-          description: No content
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+          description: No Content
         "404":
-          description: Not found
+          description: Not Found
           schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+            $ref: '#/definitions/types.Problem'
       summary: Delete foo
       tags:
-      - foo
+      - Foo
     get:
-      consumes:
-      - application/json
-      description: Get a specific foo resource by ID
+      description: Fetch a foo by ID
       parameters:
       - description: Foo ID
         in: path
@@ -209,33 +189,29 @@ paths:
       - application/json
       responses:
         "200":
-          description: Foo resource
+          description: OK
           schema:
             $ref: '#/definitions/types.FooDTO'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
         "404":
-          description: Not found
+          description: Not Found
           schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+            $ref: '#/definitions/types.Problem'
       summary: Get foo
       tags:
-      - foo
+      - Foo
     put:
       consumes:
       - application/json
-      description: Update a specific foo resource
+      description: Update a foo by ID
       parameters:
       - description: Foo ID
         in: path
         name: id
         required: true
         type: string
-      - description: Foo data
+      - description: Foo update payload
         in: body
-        name: foo
+        name: payload
         required: true
         schema:
           $ref: '#/definitions/types.UpdateFooDTO'
@@ -243,145 +219,18 @@ paths:
       - application/json
       responses:
         "200":
-          description: Updated foo
+          description: OK
           schema:
             $ref: '#/definitions/types.FooDTO'
         "400":
-          description: Bad request
+          description: Bad Request
           schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+            $ref: '#/definitions/types.Problem'
         "404":
-          description: Not found
+          description: Not Found
           schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
+            $ref: '#/definitions/types.Problem'
       summary: Update foo
       tags:
-      - foo
-  /health/detailed:
-    get:
-      consumes:
-      - application/json
-      description: Returns detailed health information including individual checks
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Detailed health information
-          schema:
-            $ref: '#/definitions/health.DetailedHealthResponse'
-        "503":
-          description: Application is unhealthy
-          schema:
-            $ref: '#/definitions/health.DetailedHealthResponse'
-      summary: Detailed health check
-      tags:
-      - health
-  /healthz:
-    get:
-      consumes:
-      - application/json
-      description: Returns the basic health status of the application
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Application is healthy
-          schema:
-            additionalProperties: true
-            type: object
-        "503":
-          description: Application is unhealthy
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Health check
-      tags:
-      - health
-  /livez:
-    get:
-      consumes:
-      - application/json
-      description: Returns the liveness status of the application
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Application is alive
-          schema:
-            additionalProperties: true
-            type: object
-        "503":
-          description: Application is not alive
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Liveness probe
-      tags:
-      - health
-  /readyz:
-    get:
-      consumes:
-      - application/json
-      description: Returns the readiness status of the application
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Application is ready
-          schema:
-            additionalProperties: true
-            type: object
-        "503":
-          description: Application is not ready
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Readiness probe
-      tags:
-      - health
-  /sql/examples:
-    get:
-      consumes:
-      - application/json
-      description: Returns a list of available SQL example files
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: List of SQL example files
-          schema:
-            items:
-              type: string
-            type: array
-      summary: List SQL examples
-      tags:
-      - sql
-  /sql/examples/{filename}:
-    get:
-      consumes:
-      - application/json
-      description: Returns the content of a specific SQL example file
-      parameters:
-      - description: SQL example filename
-        in: path
-        name: filename
-        required: true
-        type: string
-      produces:
-      - text/plain
-      responses:
-        "200":
-          description: SQL example content
-          schema:
-            type: string
-        "404":
-          description: Example not found
-          schema:
-            $ref: '#/definitions/handlers.ErrorResponse'
-      summary: Get SQL example
-      tags:
-      - sql
-schemes:
-- http
-- https
+      - Foo
 swagger: "2.0"

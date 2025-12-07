@@ -9,16 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -26,15 +17,12 @@ const docTemplate = `{
     "paths": {
         "/api/v1/foo": {
             "get": {
-                "description": "Get a list of foo resources",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "List foos filtered by org and namespace",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "foo"
+                    "Foo"
                 ],
                 "summary": "List foos",
                 "parameters": [
@@ -54,14 +42,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "default": 50,
-                        "description": "Limit",
+                        "description": "Page size",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "default": 0,
                         "description": "Offset",
                         "name": "offset",
                         "in": "query"
@@ -75,23 +61,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of foos",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/types.FooListResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
+                            "$ref": "#/definitions/types.Problem"
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/foo/{id}": {
-            "get": {
-                "description": "Get a specific foo resource by ID",
+            },
+            "post": {
+                "description": "Create a new foo resource",
                 "consumes": [
                     "application/json"
                 ],
@@ -99,7 +83,50 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "foo"
+                    "Foo"
+                ],
+                "summary": "Create foo",
+                "parameters": [
+                    {
+                        "description": "Foo payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.CreateFooDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/types.FooDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/types.Problem"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/types.Problem"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/foo/{id}": {
+            "get": {
+                "description": "Fetch a foo by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Foo"
                 ],
                 "summary": "Get foo",
                 "parameters": [
@@ -113,27 +140,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Foo resource",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/types.FooDTO"
                         }
                     },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
-                        }
-                    },
                     "404": {
-                        "description": "Not found",
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
+                            "$ref": "#/definitions/types.Problem"
                         }
                     }
                 }
             },
             "put": {
-                "description": "Update a specific foo resource",
+                "description": "Update a foo by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -141,7 +162,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "foo"
+                    "Foo"
                 ],
                 "summary": "Update foo",
                 "parameters": [
@@ -153,8 +174,8 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Foo data",
-                        "name": "foo",
+                        "description": "Foo update payload",
+                        "name": "payload",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -164,35 +185,29 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Updated foo",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/types.FooDTO"
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
+                            "$ref": "#/definitions/types.Problem"
                         }
                     },
                     "404": {
-                        "description": "Not found",
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
+                            "$ref": "#/definitions/types.Problem"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "Delete a specific foo resource",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
+                "description": "Delete a foo by ID",
                 "tags": [
-                    "foo"
+                    "Foo"
                 ],
                 "summary": "Delete foo",
                 "parameters": [
@@ -206,204 +221,12 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content"
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
-                        }
+                        "description": "No Content"
                     },
                     "404": {
-                        "description": "Not found",
+                        "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/health/detailed": {
-            "get": {
-                "description": "Returns detailed health information including individual checks",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "health"
-                ],
-                "summary": "Detailed health check",
-                "responses": {
-                    "200": {
-                        "description": "Detailed health information",
-                        "schema": {
-                            "$ref": "#/definitions/health.DetailedHealthResponse"
-                        }
-                    },
-                    "503": {
-                        "description": "Application is unhealthy",
-                        "schema": {
-                            "$ref": "#/definitions/health.DetailedHealthResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/healthz": {
-            "get": {
-                "description": "Returns the basic health status of the application",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "health"
-                ],
-                "summary": "Health check",
-                "responses": {
-                    "200": {
-                        "description": "Application is healthy",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "503": {
-                        "description": "Application is unhealthy",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/livez": {
-            "get": {
-                "description": "Returns the liveness status of the application",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "health"
-                ],
-                "summary": "Liveness probe",
-                "responses": {
-                    "200": {
-                        "description": "Application is alive",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "503": {
-                        "description": "Application is not alive",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/readyz": {
-            "get": {
-                "description": "Returns the readiness status of the application",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "health"
-                ],
-                "summary": "Readiness probe",
-                "responses": {
-                    "200": {
-                        "description": "Application is ready",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "503": {
-                        "description": "Application is not ready",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/sql/examples": {
-            "get": {
-                "description": "Returns a list of available SQL example files",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sql"
-                ],
-                "summary": "List SQL examples",
-                "responses": {
-                    "200": {
-                        "description": "List of SQL example files",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/sql/examples/{filename}": {
-            "get": {
-                "description": "Returns the content of a specific SQL example file",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "text/plain"
-                ],
-                "tags": [
-                    "sql"
-                ],
-                "summary": "Get SQL example",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "SQL example filename",
-                        "name": "filename",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "SQL example content",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Example not found",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.ErrorResponse"
+                            "$ref": "#/definitions/types.Problem"
                         }
                     }
                 }
@@ -411,81 +234,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handlers.ErrorResponse": {
+        "types.CreateFooDTO": {
             "type": "object",
+            "required": [
+                "name",
+                "namespace",
+                "org_id"
+            ],
             "properties": {
-                "error": {
-                    "type": "string",
-                    "example": "bad request"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "health.DetailedHealthResponse": {
-            "type": "object",
-            "properties": {
-                "checks": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "$ref": "#/definitions/health.HealthResult"
-                    }
-                },
-                "status": {
-                    "type": "string",
-                    "example": "healthy"
-                },
-                "summary": {
-                    "$ref": "#/definitions/health.HealthSummary"
-                },
-                "timestamp": {
-                    "type": "string"
-                }
-            }
-        },
-        "health.HealthResult": {
-            "type": "object",
-            "properties": {
-                "details": {},
-                "duration": {
-                    "description": "Duration in nanoseconds",
-                    "type": "integer"
-                },
-                "message": {
+                "name": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "string",
-                    "example": "healthy"
-                },
-                "timestamp": {
+                "namespace": {
                     "type": "string"
-                }
-            }
-        },
-        "health.HealthSummary": {
-            "type": "object",
-            "properties": {
-                "degraded": {
-                    "type": "integer",
-                    "example": 0
                 },
-                "healthy": {
-                    "type": "integer",
-                    "example": 3
-                },
-                "total": {
-                    "type": "integer",
-                    "example": 3
-                },
-                "unhealthy": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "unknown": {
-                    "type": "integer",
-                    "example": 0
+                "org_id": {
+                    "type": "string"
                 }
             }
         },
@@ -561,6 +325,31 @@ const docTemplate = `{
                 }
             }
         },
+        "types.Problem": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string",
+                    "example": "name is required"
+                },
+                "instance": {
+                    "type": "string",
+                    "example": "/api/v1/foo/123"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Bad Request"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "https://example.com/validation-error"
+                }
+            }
+        },
         "types.UpdateFooDTO": {
             "type": "object",
             "required": [
@@ -577,12 +366,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:8000",
-	BasePath:         "/",
-	Schemes:          []string{"http", "https"},
-	Title:            "API Documentation",
-	Description:      "REST API Documentation",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
+	Schemes:          []string{},
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

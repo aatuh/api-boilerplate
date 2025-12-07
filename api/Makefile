@@ -1,55 +1,61 @@
 SHELL := /bin/bash
 
-.PHONY: help dev down logs swag migrate-build migrate-up migrate-down migrate-status migrate-new tidy test test-cached test-fast test-clean health
+BIN ?= bin/api
+VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
+COMMIT ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
+DATE ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
+LDFLAGS ?= -X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.date=$(DATE)
+
+.PHONY: help dev down logs swag migrate-build migrate-up migrate-down migrate-status migrate-new tidy test test-cached test-fast test-clean health build-bin
 
 help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
 dev: ## Start development environment
-	docker compose --env-file .env up --build
+	@docker compose --env-file .env up api --build -d
 
 down: ## Clean up containers and volumes
-	docker compose down -v
+	@docker compose down api -v
 
-logs: ## View the logs of the development environment
-	docker compose logs -f api
+cycle: ## Cycle the containers down and up
+	@make down
+	@make dev
 
-swag: ## Generate the swagger files
-	# generate swagger files inside the api container
-	docker compose exec api swag init -g cmd/api/main.go -o ./swagger
+logs: ## View the logs of the service
+	@docker compose logs -f api
 
-migrate-up: ## Apply the migrations
-	docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR up"
+swag: ## Generate Swagger files
+	@docker compose exec api swag init -g cmd/api/main.go -o ./swagger
 
-migrate-down: ## Rollback the migrations
-	docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR --allow-down down"
+migrate-up: ## Apply migrations
+	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR up"
 
-migrate-status: ## Show the status of the migrations
-	docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR status"
+migrate-down: ## Rollback migrations
+	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR --allow-down down"
 
-tidy: ## Tidy the go modules
-	docker compose exec api go mod tidy
+migrate-status: ## Show status of the migrations
+	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR status"
 
-FLAGS   ?=
+tidy: ## Tidy go modules
+	@docker compose exec api go mod tidy
+
+build-bin: ## Build local API binary with version metadata
+	@echo "🏗️ Building API binary '$(BIN)'"
+	@mkdir -p $(dir $(BIN))
+	@go build -ldflags "$(LDFLAGS)" -o $(BIN) ./cmd/api
+	@echo "✅ Build complete"
+
 TEST_PATTERN ?=
-PKG          ?= ./...
+FLAGS ?=
+PKG ?= ./...
+FAST ?= false
+SKIP_API_WAIT ?= false
 CACHE_TTL ?= 3600
-CACHE_ENABLED ?= true
+CACHE_ENABLED ?= false
 
-test: ## Run the tests
-	@echo "🧪 Running tests in Docker. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)'"
-	@docker compose up -d db api
-	@docker compose run --no-deps --rm \
-		-e TEST_PATTERN='$(TEST_PATTERN)' \
-		-e FLAGS='$(FLAGS)' \
-		-e PKG='$(PKG)' \
-		-e FAST='$(FAST)' \
-		-e SKIP_API_WAIT='$(SKIP_API_WAIT)' \
-		test
-
-test-cached: ## Run tests with caching enabled
-	@echo "🧪 Running cached tests in Docker. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)'  Cache TTL: '$(CACHE_TTL)'"
+test: ## Run tests
+	@echo "🧪 Running tests. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)' Fast: ${FAST}"
 	@docker compose up -d db api
 	@docker compose run --no-deps --rm \
 		-e TEST_PATTERN='$(TEST_PATTERN)' \
@@ -62,20 +68,23 @@ test-cached: ## Run tests with caching enabled
 		-e TEST_CACHE_DIR='/tmp/test-cache' \
 		test
 
-test-clean: ## Clean test cache
-	@echo "🧹 Cleaning test cache..."
-	@docker compose run --no-deps --rm test sh -c "rm -rf /tmp/test-cache .test-cache"
-
-test-fast: ## Run tests in fast mode (no coverage, no caching)
-	@echo "⚡ Running fast tests..."
+test-cached: ## Run tests with caching enabled
+	@echo "🧪 Running cached tests. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)' Fast: ${FAST} Cache TTL: '$(CACHE_TTL)'"
 	@docker compose up -d db api
 	@docker compose run --no-deps --rm \
 		-e TEST_PATTERN='$(TEST_PATTERN)' \
 		-e FLAGS='$(FLAGS)' \
 		-e PKG='$(PKG)' \
-		-e FAST='true' \
+		-e FAST='$(FAST)' \
 		-e SKIP_API_WAIT='$(SKIP_API_WAIT)' \
+		-e TEST_CACHE_ENABLED='true' \
+		-e TEST_CACHE_TTL='$(CACHE_TTL)' \
+		-e TEST_CACHE_DIR='/tmp/test-cache' \
 		test
+
+test-clean: ## Clean test cache
+	@echo "🧹 Cleaning test cache..."
+	@docker compose run --no-deps --rm test sh -c "rm -rf /tmp/test-cache .test-cache"
 
 fmt: ## Format Go code
 	@echo "🎨 Formatting Go code..."
@@ -90,7 +99,7 @@ lint: ## Lint Go code
 health: ## Check service healthiness (logs + curl)
 	@echo "🏥 Checking service healthiness..."
 	@echo "📋 Docker Compose logs (last 20 lines):"
-	@docker-compose logs --tail=20 api
+	@docker compose logs --tail=20 api
 	@echo ""
 	@echo "🌐 Health endpoint check:"
 	@curl -f http://localhost:8000/health || echo "❌ Health check failed"

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"api/src/services/foosvc"
+	"api-boilerplate/src/services/foosvc"
 )
 
 // CreateFooDTO is the HTTP request model for Foo creation.

@@ -2,15 +2,15 @@
 package handlers
 
 import (
-	"api/src/services/foosvc"
-	endpointspec "api/src/specs/endpoints"
-	"api/src/specs/types"
+	"api-boilerplate/src/services/foosvc"
+	endpointspec "api-boilerplate/src/specs/endpoints"
+	"api-boilerplate/src/specs/types"
 	"encoding/json"
 	"net/http"
 	"strings"
 
-	"github.com/aatuh/api-toolkit/chi"
-	toolkitendpoints "github.com/aatuh/api-toolkit/endpoints"
+	"github.com/aatuh/api-toolkit/adapters/chi"
+	listquery "github.com/aatuh/api-toolkit/endpoints/list"
 	"github.com/aatuh/api-toolkit/httpx"
 	"github.com/aatuh/api-toolkit/ports"
 	"github.com/aatuh/api-toolkit/response_writer"
@@ -40,7 +40,17 @@ func (h *FooHandler) Routes() ports.HTTPRouter {
 	return r
 }
 
-// create : POST /foo
+// create handles POST /api/v1/foo
+// @Summary Create foo
+// @Description Create a new foo resource
+// @Tags Foo
+// @Accept json
+// @Produce json
+// @Param payload body types.CreateFooDTO true "Foo payload"
+// @Success 201 {object} types.FooDTO
+// @Failure 400 {object} types.Problem
+// @Failure 409 {object} types.Problem
+// @Router /api/v1/foo [post]
 func (h *FooHandler) create(w http.ResponseWriter, r *http.Request) {
 	var dto types.CreateFooDTO
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
@@ -70,7 +80,15 @@ func (h *FooHandler) create(w http.ResponseWriter, r *http.Request) {
 	response_writer.WriteJSON(w, http.StatusCreated, resp)
 }
 
-// get : GET /foo/{id}
+// get handles GET /api/v1/foo/{id}
+// @Summary Get foo
+// @Description Fetch a foo by ID
+// @Tags Foo
+// @Produce json
+// @Param id path string true "Foo ID"
+// @Success 200 {object} types.FooDTO
+// @Failure 404 {object} types.Problem
+// @Router /api/v1/foo/{id} [get]
 func (h *FooHandler) get(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	f, err := h.Svc.Get(r.Context(), id)
@@ -83,7 +101,18 @@ func (h *FooHandler) get(w http.ResponseWriter, r *http.Request) {
 	response_writer.WriteJSON(w, http.StatusOK, resp)
 }
 
-// update : PUT /foo/{id}
+// update handles PUT /api/v1/foo/{id}
+// @Summary Update foo
+// @Description Update a foo by ID
+// @Tags Foo
+// @Accept json
+// @Produce json
+// @Param id path string true "Foo ID"
+// @Param payload body types.UpdateFooDTO true "Foo update payload"
+// @Success 200 {object} types.FooDTO
+// @Failure 400 {object} types.Problem
+// @Failure 404 {object} types.Problem
+// @Router /api/v1/foo/{id} [put]
 func (h *FooHandler) update(w http.ResponseWriter, r *http.Request) {
 	id := strings.TrimSpace(chi.URLParam(r, "id"))
 	var dto types.UpdateFooDTO
@@ -112,7 +141,14 @@ func (h *FooHandler) update(w http.ResponseWriter, r *http.Request) {
 	response_writer.WriteJSON(w, http.StatusOK, resp)
 }
 
-// delete : DELETE /foo/{id}
+// delete handles DELETE /api/v1/foo/{id}
+// @Summary Delete foo
+// @Description Delete a foo by ID
+// @Tags Foo
+// @Param id path string true "Foo ID"
+// @Success 204 "No Content"
+// @Failure 404 {object} types.Problem
+// @Router /api/v1/foo/{id} [delete]
 func (h *FooHandler) delete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if err := h.Svc.Delete(r.Context(), id); err != nil {
@@ -122,9 +158,21 @@ func (h *FooHandler) delete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-// list : GET /foo?org_id=&namespace=&limit=&offset=&search=
+// list handles GET /api/v1/foo
+// @Summary List foos
+// @Description List foos filtered by org and namespace
+// @Tags Foo
+// @Produce json
+// @Param org_id query string true "Organization ID"
+// @Param namespace query string true "Namespace"
+// @Param limit query int false "Page size"
+// @Param offset query int false "Offset"
+// @Param search query string false "Search term"
+// @Success 200 {object} types.FooListResponse
+// @Failure 400 {object} types.Problem
+// @Router /api/v1/foo [get]
 func (h *FooHandler) list(w http.ResponseWriter, r *http.Request) {
-	q := toolkitendpoints.ParseListQuery(r, toolkitendpoints.ListQueryConfig{
+	q := listquery.ParseListQuery(r, listquery.ListQueryConfig{
 		DefaultLimit:   50,
 		MaxLimit:       200,
 		AllowedFilters: []string{"org_id", "namespace"},
@@ -169,7 +217,7 @@ func (h *FooHandler) list(w http.ResponseWriter, r *http.Request) {
 	response_writer.WriteJSON(w, http.StatusOK, out)
 }
 
-func cloneFilterMap(in toolkitendpoints.Filters) map[string][]string {
+func cloneFilterMap(in listquery.Filters) map[string][]string {
 	if len(in) == 0 {
 		return nil
 	}

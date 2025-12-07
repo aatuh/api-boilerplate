@@ -1,5 +1,4 @@
 #!/bin/bash
 set -e
 
-# Delegate to Go-based test runner
-exec go run ./api-toolkit/cmd/tester/main.go
+exec go run github.com/aatuh/api-toolkit/cmd/tester
