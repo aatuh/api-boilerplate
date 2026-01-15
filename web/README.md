@@ -32,5 +32,5 @@ Set in `.env` (see `.env.example`):
 
 ## Notes
 
-- Replace the Foo domain packages under `packages/services/app-*` with your own domain.
+- Replace the Foo domain packages under `packages/services/foo/` with your own domain.
 - Run `pnpm generate:api` after API changes to refresh types.

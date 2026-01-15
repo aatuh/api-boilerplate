@@ -1,4 +1,4 @@
-import { SectionHeader } from "@api-boilerplate/ui";
+import { SectionHeader } from "@api-boilerplate-core/ui";
 import { FoosClient } from "@/components/foos-client";
 
 export default function FoosPage() {

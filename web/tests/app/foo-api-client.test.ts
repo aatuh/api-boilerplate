@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { createFooApi } from "@api-boilerplate/app-api-client/foo";
-import type { HttpClient } from "@api-boilerplate/http/client";
+import { createFooApi } from "@foo/api-client/foo";
+import type { HttpClient } from "@api-boilerplate-core/http/client";
 
 describe("foo API client", () => {
   const requestMock = vi.fn();

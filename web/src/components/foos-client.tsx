@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { appDefaults } from "@api-boilerplate/app-config";
-import { useFooActions, useFooList } from "@api-boilerplate/app-hooks";
-import { Button, Card, InputField, Pill } from "@api-boilerplate/ui";
+import { appDefaults } from "@foo/config";
+import { useFooActions, useFooList } from "@foo/hooks";
+import { Button, Card, InputField, Pill } from "@api-boilerplate-core/ui";
 
 const toIsoDate = (value: string) => {
   const parsed = new Date(value);
@@ -19,16 +19,25 @@ export function FoosClient() {
   const [name, setName] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
-  const filters = useMemo(
-    () => ({ orgId, namespace, search: search.trim() || undefined }),
-    [orgId, namespace, search]
-  );
+  const filters = useMemo(() => {
+    const trimmedSearch = search.trim();
+    return {
+      orgId,
+      namespace,
+      ...(trimmedSearch ? { search: trimmedSearch } : {}),
+    };
+  }, [orgId, namespace, search]);
 
   const { items, meta, status, error, reload } = useFooList(filters);
-  const { createFoo, removeFoo, status: actionStatus, error: actionError, clearError } =
-    useFooActions({
-      onSuccess: () => reload(),
-    });
+  const {
+    createFoo,
+    removeFoo,
+    status: actionStatus,
+    error: actionError,
+    clearError,
+  } = useFooActions({
+    onSuccess: () => reload(),
+  });
 
   const handleCreate = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -77,7 +86,7 @@ export function FoosClient() {
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Enter a name"
-              error={formError ?? undefined}
+              {...(formError ? { error: formError } : {})}
               requiredLabel
             />
             <div className="flex items-center gap-3">
@@ -100,11 +109,17 @@ export function FoosClient() {
           <div>
             <p className="text-sm font-semibold text-foreground">Results</p>
             <p className="text-xs text-muted">
-              {meta ? `${meta.count} of ${meta.total} total` : "Fetching data..."}
+              {meta
+                ? `${meta.count} of ${meta.total} total`
+                : "Fetching data..."}
             </p>
           </div>
           <Pill tone={status === "error" ? "muted" : "success"}>
-            {status === "loading" ? "Loading" : status === "error" ? "Error" : "Ready"}
+            {status === "loading"
+              ? "Loading"
+              : status === "error"
+              ? "Error"
+              : "Ready"}
           </Pill>
         </div>
         {status === "error" ? (
@@ -112,7 +127,9 @@ export function FoosClient() {
         ) : null}
         <div className="mt-6 grid gap-4">
           {items.length === 0 && status !== "loading" ? (
-            <p className="text-sm text-muted">No foos yet. Create the first one above.</p>
+            <p className="text-sm text-muted">
+              No foos yet. Create the first one above.
+            </p>
           ) : null}
           {items.map((item) => (
             <div
@@ -121,7 +138,10 @@ export function FoosClient() {
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <Link className="text-sm font-semibold text-foreground hover:text-primary" href={`/foos/${item.id}`}>
+                  <Link
+                    className="text-sm font-semibold text-foreground hover:text-primary"
+                    href={`/foos/${item.id}`}
+                  >
                     {item.name}
                   </Link>
                   <p className="text-xs text-muted">ID: {item.id}</p>
@@ -140,10 +160,12 @@ export function FoosClient() {
                   <span className="text-muted-strong">Org:</span> {item.orgId}
                 </div>
                 <div>
-                  <span className="text-muted-strong">Namespace:</span> {item.namespace}
+                  <span className="text-muted-strong">Namespace:</span>{" "}
+                  {item.namespace}
                 </div>
                 <div>
-                  <span className="text-muted-strong">Updated:</span> {toIsoDate(item.updatedAt)}
+                  <span className="text-muted-strong">Updated:</span>{" "}
+                  {toIsoDate(item.updatedAt)}
                 </div>
               </div>
             </div>

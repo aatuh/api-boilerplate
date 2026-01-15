@@ -12,48 +12,51 @@ importers:
 
   .:
     dependencies:
-      '@api-boilerplate/app-api-client':
+      '@api-boilerplate-core/content':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/content
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/content(@types/react@19.2.7)(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/env':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/env
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/env
+      '@api-boilerplate-core/http':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/http
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/http
+      '@api-boilerplate-core/layouts':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/layouts
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/layouts(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/legal':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/legal
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/legal(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/theme':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/theme
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/theme(react@19.2.3)
+      '@api-boilerplate-core/ui':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/ui
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/widgets':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/widgets
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/widgets(lucide-react@0.562.0(react@19.2.3))(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@foo/api-client':
         specifier: workspace:*
-        version: link:packages/services/app/api-client
-      '@api-boilerplate/app-config':
+        version: link:packages/services/foo/api-client
+      '@foo/config':
         specifier: workspace:*
-        version: link:packages/services/app/config
-      '@api-boilerplate/app-domain':
+        version: link:packages/services/foo/config
+      '@foo/domain':
         specifier: workspace:*
-        version: link:packages/services/app/domain
-      '@api-boilerplate/app-domain-adapters':
+        version: link:packages/services/foo/domain
+      '@foo/domain-adapters':
         specifier: workspace:*
-        version: link:packages/services/app/domain-adapters
-      '@api-boilerplate/app-hooks':
+        version: link:packages/services/foo/domain-adapters
+      '@foo/hooks':
         specifier: workspace:*
-        version: link:packages/services/app/hooks
-      '@api-boilerplate/app-i18n':
+        version: link:packages/services/foo/hooks
+      '@foo/i18n':
         specifier: workspace:*
-        version: link:packages/services/app/i18n
-      '@api-boilerplate/app-legal':
+        version: link:packages/services/foo/i18n
+      '@foo/legal':
         specifier: workspace:*
-        version: link:packages/services/app/legal
-      '@api-boilerplate/content':
-        specifier: workspace:*
-        version: link:packages/core/content
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:packages/core/env
-      '@api-boilerplate/http':
-        specifier: workspace:*
-        version: link:packages/core/http
-      '@api-boilerplate/layouts':
-        specifier: workspace:*
-        version: link:packages/core/layouts
-      '@api-boilerplate/theme':
-        specifier: workspace:*
-        version: link:packages/core/theme
-      '@api-boilerplate/ui':
-        specifier: workspace:*
-        version: link:packages/core/ui
-      '@api-boilerplate/widgets':
-        specifier: workspace:*
-        version: link:packages/core/widgets
+        version: link:packages/services/foo/legal
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -106,6 +109,9 @@ importers:
       eslint-config-next:
         specifier: 16.1.0
         version: 16.1.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-hooks:
+        specifier: ^7.0.1
+        version: 7.0.1(eslint@9.39.2(jiti@2.6.1))
       jsdom:
         specifier: ^27.3.0
         version: 27.4.0
@@ -128,371 +134,67 @@ importers:
         specifier: ^4.1.12
         version: 4.3.5
 
-  packages/core/analytics:
+  packages/services/foo/api-client:
     dependencies:
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:../env
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: ^19.2.3
-        version: 19.2.3
-      zod:
-        specifier: ^4.1.11
-        version: 4.3.5
-
-  packages/core/analytics-plausible:
-    dependencies:
-      '@api-boilerplate/analytics':
-        specifier: workspace:*
-        version: link:../analytics
-      '@api-boilerplate/legal':
-        specifier: workspace:*
-        version: link:../legal
-      '@api-boilerplate/widgets':
-        specifier: workspace:*
-        version: link:../widgets
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-
-  packages/core/analytics-umami:
-    dependencies:
-      '@api-boilerplate/analytics':
-        specifier: workspace:*
-        version: link:../analytics
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:../env
-      '@api-boilerplate/legal':
-        specifier: workspace:*
-        version: link:../legal
-      '@api-boilerplate/widgets':
-        specifier: workspace:*
-        version: link:../widgets
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      zod:
-        specifier: ^4.1.11
-        version: 4.3.5
-
-  packages/core/auth: {}
-
-  packages/core/auth-clerk:
-    dependencies:
-      '@api-boilerplate/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@api-boilerplate/auth-ui':
-        specifier: workspace:*
-        version: link:../auth-ui
-      '@api-boilerplate/clerk':
-        specifier: workspace:*
-        version: link:../clerk
-      '@api-boilerplate/theme':
-        specifier: workspace:*
-        version: link:../theme
-      '@clerk/localizations':
-        specifier: '>=3'
-        version: 3.34.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/nextjs':
-        specifier: '>=4'
-        version: 6.36.7(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/themes':
-        specifier: '>=2'
-        version: 2.4.47(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/core/auth-setup:
-    dependencies:
-      '@api-boilerplate/auth-ui':
-        specifier: workspace:*
-        version: link:../auth-ui
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-
-  packages/core/auth-ui:
-    dependencies:
-      '@api-boilerplate/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@clerk/nextjs':
-        specifier: '>=4'
-        version: 6.36.7(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/themes':
-        specifier: '>=2'
-        version: 2.4.47(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/core/clerk:
-    dependencies:
-      '@api-boilerplate/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:../env
-      '@api-boilerplate/theme':
-        specifier: workspace:*
-        version: link:../theme
-      '@clerk/nextjs':
-        specifier: '>=4'
-        version: 6.36.7(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/themes':
-        specifier: '>=2'
-        version: 2.4.47(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-      zod:
-        specifier: ^4.1.11
-        version: 4.3.5
-
-  packages/core/content:
-    dependencies:
-      '@api-boilerplate/i18n-shared':
-        specifier: workspace:*
-        version: link:../i18n-shared
-      '@api-boilerplate/layouts':
-        specifier: workspace:*
-        version: link:../layouts
-      '@api-boilerplate/ui':
-        specifier: workspace:*
-        version: link:../ui
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-      react-markdown:
-        specifier: ^10.1.0
-        version: 10.1.0(@types/react@19.2.7)(react@19.2.3)
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      zod:
-        specifier: ^4.1.12
-        version: 4.3.5
-
-  packages/core/env:
-    dependencies:
-      zod:
-        specifier: ^4.1.12
-        version: 4.3.5
-
-  packages/core/error-contracts:
-    dependencies:
-      '@api-boilerplate/http':
-        specifier: workspace:*
-        version: link:../http
-
-  packages/core/flags:
-    dependencies:
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:../env
-
-  packages/core/http: {}
-
-  packages/core/i18n-shared:
-    dependencies:
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/core/layouts:
-    dependencies:
-      '@api-boilerplate/i18n-shared':
-        specifier: workspace:*
-        version: link:../i18n-shared
-      '@api-boilerplate/ui':
-        specifier: workspace:*
-        version: link:../ui
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/core/legal:
-    dependencies:
-      '@api-boilerplate/layouts':
-        specifier: workspace:*
-        version: link:../layouts
-      '@api-boilerplate/ui':
-        specifier: workspace:*
-        version: link:../ui
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/core/seo:
-    dependencies:
-      '@api-boilerplate/i18n-shared':
-        specifier: workspace:*
-        version: link:../i18n-shared
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-
-  packages/core/theme:
-    dependencies:
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-
-  packages/core/ui:
-    dependencies:
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-      zod:
-        specifier: ^3.24.2
-        version: 3.25.76
-
-  packages/core/widgets:
-    dependencies:
-      '@api-boilerplate/i18n-shared':
-        specifier: workspace:*
-        version: link:../i18n-shared
-      '@api-boilerplate/legal':
-        specifier: workspace:*
-        version: link:../legal
-      '@api-boilerplate/theme':
-        specifier: workspace:*
-        version: link:../theme
-      '@api-boilerplate/ui':
-        specifier: workspace:*
-        version: link:../ui
-      lucide-react:
-        specifier: '>=0.0.0'
-        version: 0.562.0(react@19.2.3)
-      next:
-        specifier: '>=13'
-        version: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: '>=18'
-        version: 19.2.3
-      react-dom:
-        specifier: '>=18'
-        version: 19.2.3(react@19.2.3)
-
-  packages/services/app/api-client:
-    dependencies:
-      '@api-boilerplate/app-config':
+      '@api-boilerplate-core/http':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/http
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/http
+      '@foo/config':
         specifier: workspace:*
         version: link:../config
-      '@api-boilerplate/http':
-        specifier: workspace:*
-        version: link:../../../core/http
 
-  packages/services/app/config:
+  packages/services/foo/config:
     dependencies:
-      '@api-boilerplate/env':
-        specifier: workspace:*
-        version: link:../../../core/env
+      '@api-boilerplate-core/env':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/env
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/env
       zod:
         specifier: ^4.1.12
         version: 4.3.5
 
-  packages/services/app/domain: {}
+  packages/services/foo/domain: {}
 
-  packages/services/app/domain-adapters:
+  packages/services/foo/domain-adapters:
     dependencies:
-      '@api-boilerplate/app-api-client':
+      '@foo/api-client':
         specifier: workspace:*
         version: link:../api-client
-      '@api-boilerplate/app-domain':
+      '@foo/domain':
         specifier: workspace:*
         version: link:../domain
 
-  packages/services/app/hooks:
+  packages/services/foo/hooks:
     dependencies:
-      '@api-boilerplate/app-domain':
+      '@api-boilerplate-core/http':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/http
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/http
+      '@foo/domain':
         specifier: workspace:*
         version: link:../domain
-      '@api-boilerplate/app-domain-adapters':
+      '@foo/domain-adapters':
         specifier: workspace:*
         version: link:../domain-adapters
-      '@api-boilerplate/app-i18n':
+      '@foo/i18n':
         specifier: workspace:*
         version: link:../i18n
-      '@api-boilerplate/http':
-        specifier: workspace:*
-        version: link:../../../core/http
       react:
         specifier: '>=18'
         version: 19.2.3
 
-  packages/services/app/i18n:
+  packages/services/foo/i18n:
     dependencies:
-      '@api-boilerplate/i18n-shared':
-        specifier: workspace:*
-        version: link:../../../core/i18n-shared
+      '@api-boilerplate-core/i18n-shared':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/i18n-shared
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
-  packages/services/app/legal:
+  packages/services/foo/legal:
     dependencies:
-      '@api-boilerplate/app-i18n':
+      '@api-boilerplate-core/legal':
+        specifier: github:aatuh/api-boilerplate-core#path:/packages/legal
+        version: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/legal(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@foo/i18n':
         specifier: workspace:*
         version: link:../i18n
-      '@api-boilerplate/legal':
-        specifier: workspace:*
-        version: link:../../../core/legal
 
 packages:
 
@@ -505,6 +207,69 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@api-boilerplate-core/content@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/content':
+    resolution: {path: /packages/content, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@api-boilerplate-core/env@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/env':
+    resolution: {path: /packages/env, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+
+  '@api-boilerplate-core/http@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/http':
+    resolution: {path: /packages/http, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+
+  '@api-boilerplate-core/i18n-shared@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared':
+    resolution: {path: /packages/i18n-shared, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@api-boilerplate-core/layouts@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/layouts':
+    resolution: {path: /packages/layouts, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@api-boilerplate-core/legal@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/legal':
+    resolution: {path: /packages/legal, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@api-boilerplate-core/theme@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/theme':
+    resolution: {path: /packages/theme, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      react: '>=18'
+
+  '@api-boilerplate-core/ui@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui':
+    resolution: {path: /packages/ui, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@api-boilerplate-core/widgets@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/widgets':
+    resolution: {path: /packages/widgets, tarball: https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae}
+    version: 0.1.0
+    peerDependencies:
+      lucide-react: '>=0.0.0'
+      next: '>=13'
+      react: '>=18'
+      react-dom: '>=18'
 
   '@asamuzakjp/css-color@4.1.1':
     resolution: {integrity: sha512-B0Hv6G3gWGMn0xKJ0txEi/jM5iFpT3MfDxmhZFb4W047GvytCf1DHQ1D69W3zHI4yWe2aTZAA0JnbMZ7Xc8DuQ==}
@@ -585,49 +350,6 @@ packages:
   '@babel/types@7.28.6':
     resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
     engines: {node: '>=6.9.0'}
-
-  '@clerk/backend@2.29.2':
-    resolution: {integrity: sha512-HflWfWG0jfnOB++3bu1N0lzAgOuapJRmkfX1jdtF3M+Wn4QVHczLMt2To9VIGiTt62+kRUWLV4SONzVvCoOcsA==}
-    engines: {node: '>=18.17.0'}
-
-  '@clerk/clerk-react@5.59.3':
-    resolution: {integrity: sha512-r1gmAYxhXs+QkXjDwj5Eqvm0Io8PtJ4FKkA45khiAzIQXcaQLFq/wFy7d1K8OSIYAIdFbuO0bnIOU/FdgWOc+A==}
-    engines: {node: '>=18.17.0'}
-    peerDependencies:
-      react: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-      react-dom: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-
-  '@clerk/localizations@3.34.0':
-    resolution: {integrity: sha512-LGlxDuwFRfJnUttbHYTShqklGVqbXSp7B5zjir31pPQG1MrJS5LjVx8M0E9i0OZEHec8SU/4EoCOMX07Dk6Jfw==}
-    engines: {node: '>=18.17.0'}
-
-  '@clerk/nextjs@6.36.7':
-    resolution: {integrity: sha512-sH+bZsdKAdxAL6/E6w3QZarDz6Y2F1pavp1eAZRVitckiZFZJMzBDdNC6K1vOyQdzke1Y3jUwLcHfIF+oswBOA==}
-    engines: {node: '>=18.17.0'}
-    peerDependencies:
-      next: ^13.5.7 || ^14.2.25 || ^15.2.3 || ^16
-      react: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-      react-dom: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-
-  '@clerk/shared@3.42.0':
-    resolution: {integrity: sha512-sJUur/7jnHHlAsdoDosxpOmfV05VR7K5rvqlFskj3GaAMFEJrvdOztw0hmhBGVSWiCpjTZfdGITegton8mo7mQ==}
-    engines: {node: '>=18.17.0'}
-    peerDependencies:
-      react: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-      react-dom: ^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-
-  '@clerk/themes@2.4.47':
-    resolution: {integrity: sha512-Sko1+VlF1SGUAZSIh86R3zHn9iGKyPEAlJUtGcVadjWMOO/+sDLAINgDP8xEm/RSYgi2UVvCTbkRSmN0kW5OLg==}
-    engines: {node: '>=18.17.0'}
-
-  '@clerk/types@4.101.10':
-    resolution: {integrity: sha512-qlmgnAm/IeK02RKEKVN8/Glx07xw/Lcv67jBfikM8HXhHc5v7bfYLD8UiWTr6H2RGtvB09cIt9JezRRlsuVBew==}
-    engines: {node: '>=18.17.0'}
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -1256,9 +978,6 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@stablelib/base64@1.0.1':
-    resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
-
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
@@ -1845,9 +1564,6 @@ packages:
     resolution: {integrity: sha512-7D2EPVltRrsTkhpQmksIu+LxeWAIEk6wRDMJ1qljlv+CKHJM+cJLlfhWIzNA44eAsHXSNe3+vO6DW1yCYx8SuQ==}
     engines: {node: '>=20'}
 
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
-
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -2155,9 +1871,6 @@ packages:
   fast-safe-stringify@2.1.1:
     resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
 
-  fast-sha256@1.3.0:
-    resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
-
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
@@ -2245,9 +1958,6 @@ packages:
   glob-parent@6.0.2:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
-
-  glob-to-regexp@0.4.1:
-    resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
@@ -2503,10 +2213,6 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
-
-  js-cookie@3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
-    engines: {node: '>=14'}
 
   js-levenshtein@1.1.6:
     resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
@@ -3172,9 +2878,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
-
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
     engines: {node: '>= 0.4'}
@@ -3251,9 +2954,6 @@ packages:
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
-
-  standardwebhooks@1.0.0:
-    resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
 
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
@@ -3346,11 +3046,6 @@ packages:
   swagger2openapi@7.0.8:
     resolution: {integrity: sha512-upi/0ZGkYgEcLeGieoz8gT74oWHA0E7JivX7aN9mAf+Tc7BQoRBvnIGHoPDw+f9TXTW4s6kGYCZJtauP6OYp7g==}
     hasBin: true
-
-  swr@2.3.4:
-    resolution: {integrity: sha512-bYd2lrhc+VarcpkgWclcUi92wYCpOgMws9Sd1hG1ntAu0NEy+14CbotuFjshBU2kt9rYj9TSmDcybpxpeTU1fg==}
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -3489,11 +3184,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  use-sync-external-store@1.6.0:
-    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
@@ -3699,6 +3389,72 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
+  '@api-boilerplate-core/content@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/content(@types/react@19.2.7)(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@api-boilerplate-core/i18n-shared': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/layouts': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/layouts(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/ui': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      gray-matter: 4.0.3
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      react-markdown: 10.1.0(@types/react@19.2.7)(react@19.2.3)
+      remark-gfm: 4.0.1
+      zod: 4.3.5
+    transitivePeerDependencies:
+      - '@types/react'
+      - supports-color
+
+  '@api-boilerplate-core/env@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/env':
+    dependencies:
+      zod: 4.3.5
+
+  '@api-boilerplate-core/http@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/http': {}
+
+  '@api-boilerplate-core/i18n-shared@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
+  '@api-boilerplate-core/layouts@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/layouts(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@api-boilerplate-core/i18n-shared': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/ui': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
+  '@api-boilerplate-core/legal@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/legal(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@api-boilerplate-core/layouts': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/layouts(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/ui': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
+  '@api-boilerplate-core/theme@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/theme(react@19.2.3)':
+    dependencies:
+      react: 19.2.3
+
+  '@api-boilerplate-core/ui@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      zod: 3.25.76
+
+  '@api-boilerplate-core/widgets@https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/widgets(lucide-react@0.562.0(react@19.2.3))(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@api-boilerplate-core/i18n-shared': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/i18n-shared(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/legal': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/legal(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@api-boilerplate-core/theme': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/theme(react@19.2.3)
+      '@api-boilerplate-core/ui': https://codeload.github.com/aatuh/api-boilerplate-core/tar.gz/0cb7118c4a96ff76dc38222df89423d7383789ae#path:/packages/ui(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      lucide-react: 0.562.0(react@19.2.3)
+      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
   '@asamuzakjp/css-color@4.1.1':
     dependencies:
       '@csstools/css-calc': 2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
@@ -3818,69 +3574,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
-
-  '@clerk/backend@2.29.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/shared': 3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/types': 4.101.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      standardwebhooks: 1.0.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - react
-      - react-dom
-
-  '@clerk/clerk-react@5.59.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/shared': 3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      tslib: 2.8.1
-
-  '@clerk/localizations@3.34.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/types': 4.101.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-    transitivePeerDependencies:
-      - react
-      - react-dom
-
-  '@clerk/nextjs@6.36.7(next@16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/backend': 2.29.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/clerk-react': 5.59.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/shared': 3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@clerk/types': 4.101.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      next: 16.1.0(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      server-only: 0.0.1
-      tslib: 2.8.1
-
-  '@clerk/shared@3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      csstype: 3.1.3
-      dequal: 2.0.3
-      glob-to-regexp: 0.4.1
-      js-cookie: 3.0.5
-      std-env: 3.10.0
-      swr: 2.3.4(react@19.2.3)
-    optionalDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@clerk/themes@2.4.47(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/shared': 3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - react
-      - react-dom
-
-  '@clerk/types@4.101.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@clerk/shared': 3.42.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-    transitivePeerDependencies:
-      - react
-      - react-dom
 
   '@csstools/color-helpers@5.1.0': {}
 
@@ -4325,8 +4018,6 @@ snapshots:
     optional: true
 
   '@rtsao/scc@1.1.0': {}
-
-  '@stablelib/base64@1.0.1': {}
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -4923,8 +4614,6 @@ snapshots:
       css-tree: 3.1.0
       lru-cache: 11.2.4
 
-  csstype@3.1.3: {}
-
   csstype@3.2.3: {}
 
   damerau-levenshtein@1.0.8: {}
@@ -5392,8 +5081,6 @@ snapshots:
 
   fast-safe-stringify@2.1.1: {}
 
-  fast-sha256@1.3.0: {}
-
   fast-uri@3.1.0: {}
 
   fastq@1.20.1:
@@ -5485,8 +5172,6 @@ snapshots:
   glob-parent@6.0.2:
     dependencies:
       is-glob: 4.0.3
-
-  glob-to-regexp@0.4.1: {}
 
   globals@14.0.0: {}
 
@@ -5752,8 +5437,6 @@ snapshots:
       set-function-name: 2.0.2
 
   jiti@2.6.1: {}
-
-  js-cookie@3.0.5: {}
 
   js-levenshtein@1.1.6: {}
 
@@ -6699,8 +6382,6 @@ snapshots:
 
   semver@7.7.3: {}
 
-  server-only@0.0.1: {}
-
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -6827,11 +6508,6 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  standardwebhooks@1.0.0:
-    dependencies:
-      '@stablelib/base64': 1.0.1
-      fast-sha256: 1.3.0
-
   std-env@3.10.0: {}
 
   stop-iteration-iterator@1.1.0:
@@ -6952,12 +6628,6 @@ snapshots:
       yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
-
-  swr@2.3.4(react@19.2.3):
-    dependencies:
-      dequal: 2.0.3
-      react: 19.2.3
-      use-sync-external-store: 1.6.0(react@19.2.3)
 
   symbol-tree@3.2.4: {}
 
@@ -7140,10 +6810,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  use-sync-external-store@1.6.0(react@19.2.3):
-    dependencies:
-      react: 19.2.3
 
   vfile-message@4.0.3:
     dependencies:

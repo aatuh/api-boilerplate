@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createFooService } from "@api-boilerplate/app-domain";
-import { createFooRepository } from "@api-boilerplate/app-domain-adapters";
-import { Button, Card, SectionHeader } from "@api-boilerplate/ui";
+import { createFooService } from "@foo/domain";
+import { createFooRepository } from "@foo/domain-adapters";
+import { Button, Card, SectionHeader } from "@api-boilerplate-core/ui";
 
 export default async function FooDetailPage({
   params,
@@ -55,7 +55,10 @@ export default async function FooDetailPage({
             <dd>{foo.updatedAt}</dd>
           </div>
         </dl>
-        <Link className="mt-6 inline-flex text-sm font-semibold text-primary" href="/docs/architecture">
+        <Link
+          className="mt-6 inline-flex text-sm font-semibold text-primary"
+          href="/docs/architecture"
+        >
           See the mapping flow in docs
         </Link>
       </Card>

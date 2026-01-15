@@ -3,13 +3,23 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { AppShell, SiteFooter, SiteHeader } from "@api-boilerplate/layouts";
-import { Button } from "@api-boilerplate/ui";
-import { ThemeProvider, ThemeVariantProvider } from "@api-boilerplate/theme";
-import { ThemeSwitcher, ThemeVariantSwitcher } from "@api-boilerplate/widgets";
-import { LocaleProvider } from "@api-boilerplate/app-i18n/locale-context";
-import { getDictionaryForRequest } from "@api-boilerplate/app-i18n/locale.server";
-import { appBaseUrl } from "@api-boilerplate/app-config";
+import {
+  AppShell,
+  SiteFooter,
+  SiteHeader,
+} from "@api-boilerplate-core/layouts";
+import { Button } from "@api-boilerplate-core/ui";
+import {
+  ThemeProvider,
+  ThemeVariantProvider,
+} from "@api-boilerplate-core/theme";
+import {
+  ThemeSwitcher,
+  ThemeVariantSwitcher,
+} from "@api-boilerplate-core/widgets";
+import { LocaleProvider } from "@foo/i18n/locale-context";
+import { getDictionaryForRequest } from "@foo/i18n/locale.server";
+import { appBaseUrl } from "@foo/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +41,9 @@ export const metadata: Metadata = {
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   manifest: "/site.webmanifest",
 };
@@ -61,7 +73,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning data-theme-variant="slate">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-grid text-foreground`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-grid text-foreground`}
+      >
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
           <ThemeVariantProvider>
@@ -75,10 +89,16 @@ export default async function RootLayout({
                     }}
                     signedOut={
                       <nav className="flex flex-wrap items-center gap-3 text-sm font-medium">
-                        <Link className="transition hover:text-primary" href="/docs">
+                        <Link
+                          className="transition hover:text-primary"
+                          href="/docs"
+                        >
                           Docs
                         </Link>
-                        <Link className="transition hover:text-primary" href="/foos">
+                        <Link
+                          className="transition hover:text-primary"
+                          href="/foos"
+                        >
                           Foo API
                         </Link>
                         <Button href="/foos" size="md">
@@ -107,7 +127,10 @@ export default async function RootLayout({
                       {
                         title: "Resources",
                         links: [
-                          { href: "/docs/getting-started", label: "Getting started" },
+                          {
+                            href: "/docs/getting-started",
+                            label: "Getting started",
+                          },
                           { href: "/docs/architecture", label: "Architecture" },
                         ],
                       },

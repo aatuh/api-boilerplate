@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { createFooService } from "@api-boilerplate/app-domain";
-import type { FooRepository } from "@api-boilerplate/app-domain";
+import { createFooService } from "@foo/domain";
+import type { FooRepository } from "@foo/domain";
 
 describe("createFooService", () => {
   it("rejects missing required fields", async () => {

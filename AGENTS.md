@@ -8,6 +8,7 @@
 
 - Architecture invariants
   - Use `api-toolkit` adapters/interfaces for router, CORS, logging, DB, validation etc.
+  - Use `api-boilerplate-core` for reusable web components.
   - Emit errors as RFC-7807 problem+json via `api-toolkit/httpx`; successes via `response_writer`.
 
 - `api/test` contains API integration tests.
@@ -42,8 +43,7 @@ Most useful commands are the following:
 - `make cycle` stop and then start the full stack via Docker Compose with live reload. If you change environment variables always run make cycle after that.
 - `make build` build Docker Compose images without cache.
 - `make codegen` regenerate OpenAPI (`api/swagger`) and sync artifacts into `swagger/public/`.
-- `make test` runs all tests inside container.
-- `make fmt`, `make lint` apply `gofmt` and `go vet`.
+- `make finalize` runs everything needed to verify code is good quality and works.
 - `make health` service healthiness check.
 
 - In any commands prefer non-interactive flags; run long-lived commands in the background.

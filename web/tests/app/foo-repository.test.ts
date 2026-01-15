@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { createFooRepository } from "@api-boilerplate/app-domain-adapters";
+import { createFooRepository } from "@foo/domain-adapters";
 import type {
   FooDTO,
   FooListResponse,
-} from "@api-boilerplate/app-api-client/foo";
-import { createFooApi } from "@api-boilerplate/app-api-client/foo";
+} from "@foo/api-client/foo";
+import { createFooApi } from "@foo/api-client/foo";
 
 describe("createFooRepository", () => {
   it("maps API DTOs into domain models", async () => {

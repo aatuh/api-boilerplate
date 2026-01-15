@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "../../node_modules/@api-boilerplate-core/*/src/**/*.{ts,tsx}";
+@source "../../packages/**/*.{ts,tsx}";
 
 :root {
   color-scheme: light;
@@ -153,7 +155,11 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at 18% 12%, var(--bg-accent-1), transparent 35%),
+  background: radial-gradient(
+      circle at 18% 12%,
+      var(--bg-accent-1),
+      transparent 35%
+    ),
     radial-gradient(circle at 78% 8%, var(--bg-accent-2), transparent 40%),
     linear-gradient(180deg, var(--bg-start), var(--bg-end));
   background-color: var(--background);

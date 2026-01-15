@@ -6,8 +6,16 @@ for routing, middleware, logging, DB access, migrations, validation, and docs.
 
 ## Quick start
 
+Find and replace string `api-boilerplate` with your service name:
+
+```regex
+api-boilerplate(?!-core)
+```
+
+Find each `.env.example` file and create `.env` files.
+
 ```bash
-# Start dev stack (API + DB) with live reload
+# Start dev stack (API + web + DB) with live reload
 make dev
 
 # Apply migrations (inside docker)
@@ -19,7 +27,12 @@ cd api && make build-bin
 # Health check and docs
 make health   # GET http://localhost:8000/health
               # Docs at http://localhost:8000/docs
+              # Web at http://localhost:3000
 ```
+
+## Useful Prompt
+
+I'm working on api-boilerplate project. Please refer to AGENTS.md backlog.md files in it. use /api-toolkit and /api-svc as reusable libraries. Always create best industry standard, hexagonal architecture, SOLID principles, clear, testable and developer friendly code. Your task: write task here.
 
 ## Directory structure
 
@@ -55,9 +68,13 @@ make health   # GET http://localhost:8000/health
     ├── src/                   # app router pages and UI
     ├── content/               # markdown content pages
     └── packages/
-        ├── core/              # shared primitives (ui, http, theme, content)
-        └── services/app/      # app domain, adapters, hooks, config
+        └── services/foo/      # demo domain, adapters, hooks, config
 ```
+
+## Core packages (web)
+
+The web app consumes `@api-boilerplate/*` from the `api-boilerplate-core` repo
+via git dependencies.
 
 ## Key components
 

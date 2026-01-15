@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { createClientEnv } from "@api-boilerplate/env";
+import { createClientEnv } from "@api-boilerplate-core/env";
 
 describe("createClientEnv", () => {
   it("applies defaults from the schema", () => {
@@ -17,7 +17,9 @@ describe("createClientEnv", () => {
 
     expect(env.NEXT_PUBLIC_API_URL).toBe("https://example.test");
     expect(env.NEXT_PUBLIC_FLAG).toBe("on");
-    expect((env as Record<string, string | undefined>).OTHER).toBeUndefined();
+    expect(
+      (env as Record<string, string | undefined>)["OTHER"]
+    ).toBeUndefined();
   });
 
   it("rejects non-public keys in strict mode", () => {

@@ -10,6 +10,8 @@ RUN corepack enable && corepack prepare pnpm@10.19.0 --activate
 
 FROM base AS deps
 
+RUN apk add --no-cache git
+
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 

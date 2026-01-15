@@ -1,6 +1,11 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import reactHooks from "eslint-plugin-react-hooks";
+
+const configDir = path.dirname(fileURLToPath(import.meta.url));
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -12,9 +17,31 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    ".pnpmfile.cjs",
+    "node_modules/**",
+    ".pnpm-store/**",
+    "pnpm-lock.yaml",
+    "coverage/**",
   ]),
   {
-    files: ["packages/services/app/domain/**/*.{ts,tsx}"],
+    settings: {
+      next: {
+        rootDir: [configDir],
+      },
+    },
+  },
+  {
+    plugins: {
+      "react-hooks": reactHooks,
+    },
+    rules: {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/set-state-in-effect": "warn",
+    },
+  },
+  {
+    files: ["packages/services/foo/domain/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -22,23 +49,24 @@ const eslintConfig = defineConfig([
           patterns: [
             {
               group: [
-                "@api-boilerplate/app-api-client",
-                "@api-boilerplate/app-config",
-                "@api-boilerplate/app-domain-adapters",
-                "@api-boilerplate/app-hooks",
-                "@api-boilerplate/app-i18n",
-                "@api-boilerplate/app-legal",
-                "@api-boilerplate/content",
-                "@api-boilerplate/env",
-                "@api-boilerplate/http",
-                "@api-boilerplate/i18n-shared",
-                "@api-boilerplate/legal",
-                "@api-boilerplate/layouts",
-                "@api-boilerplate/theme",
-                "@api-boilerplate/ui",
-                "@api-boilerplate/widgets",
+                "@foo/api-client",
+                "@foo/config",
+                "@foo/domain-adapters",
+                "@foo/hooks",
+                "@foo/i18n",
+                "@foo/legal",
+                "@api-boilerplate-core/content",
+                "@api-boilerplate-core/env",
+                "@api-boilerplate-core/http",
+                "@api-boilerplate-core/i18n-shared",
+                "@api-boilerplate-core/legal",
+                "@api-boilerplate-core/layouts",
+                "@api-boilerplate-core/theme",
+                "@api-boilerplate-core/ui",
+                "@api-boilerplate-core/widgets",
               ],
-              message: "Domain layer must stay framework-agnostic and adapter-free.",
+              message:
+                "Domain layer must stay framework-agnostic and adapter-free.",
             },
           ],
         },
@@ -46,7 +74,7 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["packages/services/app/domain-adapters/**/*.{ts,tsx}"],
+    files: ["packages/services/foo/domain-adapters/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -54,44 +82,21 @@ const eslintConfig = defineConfig([
           patterns: [
             {
               group: [
-                "@api-boilerplate/app-config",
-                "@api-boilerplate/app-hooks",
-                "@api-boilerplate/app-i18n",
-                "@api-boilerplate/app-legal",
-                "@api-boilerplate/content",
-                "@api-boilerplate/env",
-                "@api-boilerplate/i18n-shared",
-                "@api-boilerplate/legal",
-                "@api-boilerplate/layouts",
-                "@api-boilerplate/theme",
-                "@api-boilerplate/ui",
-                "@api-boilerplate/widgets",
+                "@foo/config",
+                "@foo/hooks",
+                "@foo/i18n",
+                "@foo/legal",
+                "@api-boilerplate-core/content",
+                "@api-boilerplate-core/env",
+                "@api-boilerplate-core/i18n-shared",
+                "@api-boilerplate-core/legal",
+                "@api-boilerplate-core/layouts",
+                "@api-boilerplate-core/theme",
+                "@api-boilerplate-core/ui",
+                "@api-boilerplate-core/widgets",
               ],
-              message: "Domain adapters should not depend on UI or app-level packages.",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ["packages/core/ui/**/*.{ts,tsx}"],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: [
-                "@api-boilerplate/app-api-client",
-                "@api-boilerplate/app-config",
-                "@api-boilerplate/app-domain",
-                "@api-boilerplate/app-domain-adapters",
-                "@api-boilerplate/app-hooks",
-                "@api-boilerplate/app-i18n",
-                "@api-boilerplate/app-legal",
-              ],
-              message: "UI primitives should not depend on domain or adapter layers.",
+              message:
+                "Domain adapters should not depend on UI or app-level packages.",
             },
           ],
         },

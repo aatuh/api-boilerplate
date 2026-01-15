@@ -1,5 +1,5 @@
-import { Button, Card, Pill, SectionHeader } from "@api-boilerplate/ui";
-import { appDefaults } from "@api-boilerplate/app-config";
+import { Button, Card, Pill, SectionHeader } from "@api-boilerplate-core/ui";
+import { appDefaults } from "@foo/config";
 
 const highlights = [
   {
@@ -48,13 +48,16 @@ export default function HomePage() {
               Quickstart
             </div>
             <pre className="rounded-2xl bg-surface-muted p-4 text-xs text-muted-strong">
-{`make dev
+              {`make dev
 cd api && make migrate-up
 cd ../web && pnpm dev`}
             </pre>
             <div className="grid gap-3 sm:grid-cols-3">
               {stack.map((item) => (
-                <div key={item.label} className="rounded-xl border border-border bg-surface px-3 py-2">
+                <div
+                  key={item.label}
+                  className="rounded-xl border border-border bg-surface px-3 py-2"
+                >
                   <div className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-strong">
                     {item.label}
                   </div>
@@ -75,7 +78,9 @@ cd ../web && pnpm dev`}
           {highlights.map((item) => (
             <Card key={item.title}>
               <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {item.title}
+                </h3>
                 <p className="text-sm text-muted">{item.body}</p>
               </div>
             </Card>
@@ -105,7 +110,9 @@ cd ../web && pnpm dev`}
               Next steps
             </div>
             <ul className="space-y-2 text-sm text-muted">
-              <li>Map real domain models under `packages/services/app-domain`.</li>
+              <li>
+                Map real domain models under `packages/services/foo/domain`.
+              </li>
               <li>Replace Foo pages with your product flows.</li>
               <li>Extend `api/` with new services and generate types.</li>
             </ul>
