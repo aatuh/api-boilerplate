@@ -1,0 +1,120 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "types": ["vitest/globals"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@api-boilerplate/ui": ["./packages/core/ui/src/index.ts"],
+      "@api-boilerplate/ui/*": ["./packages/core/ui/src/*"],
+      "@api-boilerplate/theme": ["./packages/core/theme/src/index.ts"],
+      "@api-boilerplate/theme/*": ["./packages/core/theme/src/*"],
+      "@api-boilerplate/http": ["./packages/core/http/src/index.ts"],
+      "@api-boilerplate/http/*": ["./packages/core/http/src/*"],
+      "@api-boilerplate/env": ["./packages/core/env/src/index.ts"],
+      "@api-boilerplate/env/*": ["./packages/core/env/src/*"],
+      "@api-boilerplate/auth": ["./packages/core/auth/src/index.ts"],
+      "@api-boilerplate/auth/*": ["./packages/core/auth/src/*"],
+      "@api-boilerplate/auth-setup": [
+        "./packages/core/auth-setup/src/index.ts"
+      ],
+      "@api-boilerplate/auth-setup/*": ["./packages/core/auth-setup/src/*"],
+      "@api-boilerplate/auth-ui": ["./packages/core/auth-ui/src/index.tsx"],
+      "@api-boilerplate/auth-ui/*": ["./packages/core/auth-ui/src/*"],
+      "@api-boilerplate/auth-clerk": [
+        "./packages/core/auth-clerk/src/index.tsx"
+      ],
+      "@api-boilerplate/auth-clerk/*": ["./packages/core/auth-clerk/src/*"],
+      "@api-boilerplate/clerk": ["./packages/core/clerk/src/index.ts"],
+      "@api-boilerplate/clerk/*": ["./packages/core/clerk/src/*"],
+      "@api-boilerplate/flags": ["./packages/core/flags/src/index.ts"],
+      "@api-boilerplate/flags/*": ["./packages/core/flags/src/*"],
+      "@api-boilerplate/error-contracts": [
+        "./packages/core/error-contracts/src/index.ts"
+      ],
+      "@api-boilerplate/error-contracts/*": [
+        "./packages/core/error-contracts/src/*"
+      ],
+      "@api-boilerplate/analytics": ["./packages/core/analytics/src/index.ts"],
+      "@api-boilerplate/analytics/*": ["./packages/core/analytics/src/*"],
+      "@api-boilerplate/analytics-plausible": [
+        "./packages/core/analytics-plausible/src/index.ts"
+      ],
+      "@api-boilerplate/analytics-umami": [
+        "./packages/core/analytics-umami/src/index.ts"
+      ],
+      "@api-boilerplate/i18n-shared": [
+        "./packages/core/i18n-shared/src/index.ts"
+      ],
+      "@api-boilerplate/i18n-shared/*": ["./packages/core/i18n-shared/src/*"],
+      "@api-boilerplate/legal": ["./packages/core/legal/src/index.ts"],
+      "@api-boilerplate/legal/*": ["./packages/core/legal/src/*"],
+      "@api-boilerplate/content": ["./packages/core/content/src/index.ts"],
+      "@api-boilerplate/content/*": ["./packages/core/content/src/*"],
+      "@api-boilerplate/seo": ["./packages/core/seo/src/index.ts"],
+      "@api-boilerplate/app-config": [
+        "./packages/services/app/config/src/index.ts"
+      ],
+      "@api-boilerplate/app-config/*": ["./packages/services/app/config/src/*"],
+      "@api-boilerplate/app-api-client": [
+        "./packages/services/app/api-client/src/index.ts"
+      ],
+      "@api-boilerplate/app-api-client/*": [
+        "./packages/services/app/api-client/src/api/*"
+      ],
+      "@api-boilerplate/app-hooks": [
+        "./packages/services/app/hooks/src/index.ts"
+      ],
+      "@api-boilerplate/app-hooks/*": ["./packages/services/app/hooks/src/*"],
+      "@api-boilerplate/app-domain": [
+        "./packages/services/app/domain/src/index.ts"
+      ],
+      "@api-boilerplate/app-domain/*": ["./packages/services/app/domain/src/*"],
+      "@api-boilerplate/app-domain-adapters": [
+        "./packages/services/app/domain-adapters/src/index.ts"
+      ],
+      "@api-boilerplate/app-domain-adapters/*": [
+        "./packages/services/app/domain-adapters/src/*"
+      ],
+      "@api-boilerplate/app-i18n": [
+        "./packages/services/app/i18n/src/index.ts"
+      ],
+      "@api-boilerplate/app-i18n/*": ["./packages/services/app/i18n/src/*"],
+      "@api-boilerplate/app-legal": [
+        "./packages/services/app/legal/src/index.ts"
+      ],
+      "@api-boilerplate/app-legal/*": ["./packages/services/app/legal/src/*"],
+      "@api-boilerplate/layouts": ["./packages/core/layouts/src/index.ts"],
+      "@api-boilerplate/layouts/*": ["./packages/core/layouts/src/*"],
+      "@api-boilerplate/widgets": ["./packages/core/widgets/src/index.ts"],
+      "@api-boilerplate/widgets/*": ["./packages/core/widgets/src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "packages/services/app/api-client/src/api/foo.ts",
+    "../../.trash/xtypes.ts"
+  ],
+  "exclude": ["node_modules", ".next"]
+}

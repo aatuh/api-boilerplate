@@ -1,0 +1,15 @@
+{
+  "name": "@api-boilerplate/app-api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/app-config": "workspace:*",
+    "@api-boilerplate/http": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./foo": "./src/api/foo.ts",
+    "./types": "./src/api/types.ts"
+  }
+}

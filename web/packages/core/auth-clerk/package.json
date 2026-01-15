@@ -1,0 +1,25 @@
+{
+  "name": "@api-boilerplate/auth-clerk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/auth": "workspace:*",
+    "@api-boilerplate/auth-ui": "workspace:*",
+    "@api-boilerplate/clerk": "workspace:*",
+    "@api-boilerplate/theme": "workspace:*",
+    "@clerk/localizations": ">=3",
+    "@clerk/nextjs": ">=4",
+    "@clerk/themes": ">=2"
+  },
+  "peerDependencies": {
+    "next": ">=13",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.tsx",
+    "./server": "./src/server.ts",
+    "./middleware": "./src/middleware.ts"
+  }
+}

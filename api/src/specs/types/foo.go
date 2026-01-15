@@ -1,12 +1,6 @@
 package types
 
-import (
-	"errors"
-	"strings"
-	"time"
-
-	"api-boilerplate/src/services/foosvc"
-)
+import "time"
 
 // CreateFooDTO is the HTTP request model for Foo creation.
 type CreateFooDTO struct {
@@ -15,48 +9,9 @@ type CreateFooDTO struct {
 	Name      string `json:"name" validate:"required"`
 }
 
-func (d CreateFooDTO) Validate() error {
-	if strings.TrimSpace(d.OrgID) == "" {
-		return errors.New("org_id is required")
-	}
-	if strings.TrimSpace(d.Namespace) == "" {
-		return errors.New("namespace is required")
-	}
-	if strings.TrimSpace(d.Name) == "" {
-		return errors.New("name is required")
-	}
-	return nil
-}
-
-func (d CreateFooDTO) ToInput() foosvc.CreateInput {
-	return foosvc.CreateInput{
-		OrgID:     strings.TrimSpace(d.OrgID),
-		Namespace: strings.TrimSpace(d.Namespace),
-		Name:      strings.TrimSpace(d.Name),
-	}
-}
-
 // UpdateFooDTO is the HTTP request model for Foo update.
 type UpdateFooDTO struct {
 	Name *string `json:"name" validate:"required"`
-}
-
-func (d UpdateFooDTO) Validate() error {
-	if d.Name == nil {
-		return errors.New("name is required")
-	}
-	if strings.TrimSpace(*d.Name) == "" {
-		return errors.New("name cannot be empty")
-	}
-	return nil
-}
-
-func (d UpdateFooDTO) ToInput(id string) foosvc.UpdateInput {
-	name := strings.TrimSpace(*d.Name)
-	return foosvc.UpdateInput{
-		ID:   strings.TrimSpace(id),
-		Name: &name,
-	}
 }
 
 // FooDTO is the HTTP response model for Foo.
@@ -67,19 +22,6 @@ type FooDTO struct {
 	Name      string    `json:"name" example:"my-foo"`
 	CreatedAt time.Time `json:"created_at" example:"2023-01-01T00:00:00Z"`
 	UpdatedAt time.Time `json:"updated_at" example:"2023-01-01T00:00:00Z"`
-}
-
-// FromModel converts a foosvc.Foo to FooDTO.
-func (d *FooDTO) FromModel(f *foosvc.Foo) {
-	if f == nil {
-		return
-	}
-	d.ID = f.ID
-	d.OrgID = f.OrgID
-	d.Namespace = f.Namespace
-	d.Name = f.Name
-	d.CreatedAt = f.CreatedAt
-	d.UpdatedAt = f.UpdatedAt
 }
 
 // ListMeta describes pagination metadata for list responses.

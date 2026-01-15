@@ -1,0 +1,19 @@
+{
+  "name": "@api-boilerplate/analytics-umami",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/analytics": "workspace:*",
+    "@api-boilerplate/env": "workspace:*",
+    "@api-boilerplate/legal": "workspace:*",
+    "@api-boilerplate/widgets": "workspace:*",
+    "zod": "^4.1.11"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@api-boilerplate/analytics-plausible",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/analytics": "workspace:*",
+    "@api-boilerplate/legal": "workspace:*",
+    "@api-boilerplate/widgets": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

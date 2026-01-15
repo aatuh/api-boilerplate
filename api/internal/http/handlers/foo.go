@@ -2,12 +2,15 @@
 package handlers
 
 import (
-	"api-boilerplate/src/services/foosvc"
-	endpointspec "api-boilerplate/src/specs/endpoints"
-	"api-boilerplate/src/specs/types"
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	"api-boilerplate/internal/http/mapper"
+	"api-boilerplate/internal/services/foosvc"
+	"api-boilerplate/internal/validation"
+	endpointspec "api-boilerplate/src/specs/endpoints"
+	"api-boilerplate/src/specs/types"
 
 	"github.com/aatuh/api-toolkit/adapters/chi"
 	listquery "github.com/aatuh/api-toolkit/endpoints/list"
@@ -62,22 +65,19 @@ func (h *FooHandler) create(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	// Then, DTO's own custom rules
-	if err := dto.Validate(); err != nil {
+	// Then, custom rules
+	if err := validation.ValidateCreateFoo(&dto); err != nil {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	in := dto.ToInput()
-	f, err := h.Svc.Create(r.Context(), in)
+	f, err := h.Svc.Create(r.Context(), mapper.CreateFooInput(&dto))
 	if err != nil {
 		writeDomainErr(w, err)
 		return
 	}
 
-	var resp types.FooDTO
-	resp.FromModel(f)
-	response_writer.WriteJSON(w, http.StatusCreated, resp)
+	response_writer.WriteJSON(w, http.StatusCreated, mapper.FooDTOFromModel(f))
 }
 
 // get handles GET /api/v1/foo/{id}
@@ -96,9 +96,7 @@ func (h *FooHandler) get(w http.ResponseWriter, r *http.Request) {
 		writeDomainErr(w, err)
 		return
 	}
-	var resp types.FooDTO
-	resp.FromModel(f)
-	response_writer.WriteJSON(w, http.StatusOK, resp)
+	response_writer.WriteJSON(w, http.StatusOK, mapper.FooDTOFromModel(f))
 }
 
 // update handles PUT /api/v1/foo/{id}
@@ -124,21 +122,18 @@ func (h *FooHandler) update(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	if err := dto.Validate(); err != nil {
+	if err := validation.ValidateUpdateFoo(&dto); err != nil {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	in := dto.ToInput(id)
-	f, err := h.Svc.Update(r.Context(), in)
+	f, err := h.Svc.Update(r.Context(), mapper.UpdateFooInput(&dto, id))
 	if err != nil {
 		writeDomainErr(w, err)
 		return
 	}
 
-	var resp types.FooDTO
-	resp.FromModel(f)
-	response_writer.WriteJSON(w, http.StatusOK, resp)
+	response_writer.WriteJSON(w, http.StatusOK, mapper.FooDTOFromModel(f))
 }
 
 // delete handles DELETE /api/v1/foo/{id}
@@ -196,7 +191,7 @@ func (h *FooHandler) list(w http.ResponseWriter, r *http.Request) {
 
 	items := make([]types.FooDTO, len(res.Items))
 	for i := range res.Items {
-		items[i].FromModel(&res.Items[i])
+		items[i] = mapper.FooDTOFromModel(&res.Items[i])
 	}
 
 	meta := types.ListMeta{

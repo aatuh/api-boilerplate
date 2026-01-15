@@ -1,0 +1,21 @@
+{
+  "name": "@api-boilerplate/auth-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/auth": "workspace:*"
+  },
+  "peerDependencies": {
+    "@clerk/nextjs": ">=4",
+    "@clerk/themes": ">=2",
+    "next": ">=13",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.tsx",
+    "./server": "./src/server.ts",
+    "./middleware": "./src/middleware.ts"
+  }
+}

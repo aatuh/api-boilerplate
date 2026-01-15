@@ -1,0 +1,14 @@
+{
+  "name": "@api-boilerplate/app-domain-adapters",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/app-api-client": "workspace:*",
+    "@api-boilerplate/app-domain": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./foo-repository": "./src/foo-repository.ts"
+  }
+}

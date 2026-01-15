@@ -1,8 +1,9 @@
-package repos
+package store
 
 import (
-	"api-boilerplate/src/services/foosvc"
 	"context"
+
+	"api-boilerplate/internal/services/foosvc"
 
 	"github.com/aatuh/api-toolkit/adapters/txpostgres"
 	"github.com/aatuh/api-toolkit/ports"

@@ -1,0 +1,14 @@
+{
+  "name": "@api-boilerplate/app-legal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/app-i18n": "workspace:*",
+    "@api-boilerplate/legal": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./consent": "./src/consent.ts"
+  }
+}

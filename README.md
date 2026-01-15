@@ -25,30 +25,38 @@ make health   # GET http://localhost:8000/health
 
 ```plaintext
 .
-├── Makefile                 # top-level helpers that delegate to ./api
-├── docker-compose.yml       # dev stack (api, db, test runner)
-├── README.md                # this file
-└── api/                     # the actual API service
-    ├── Makefile             # API tasks (swag, test, lint, health, migrate)
-    ├── Dockerfile           # production image
-    ├── Dockerfile.dev       # dev image with hot-reload
-    ├── go.mod, go.sum       # module (depends on github.com/aatuh/api-toolkit)
-    ├── cmd/
-    │   ├── api/             # HTTP server entrypoint
-    │   │   └── main.go
-    │   └── migrate/         # CLI for DB migrations
-    │       └── main.go
-    ├── internal/            # app-internal adapters (HTTP, middleware, ...)
-    │   └── http/
-    │       ├── handlers/    # thin HTTP handlers (mount under routes)
-    │       └── ...
-    ├── migrations/          # SQL migrations (embedded) + go:embed binder
-    ├── src/                 # domain/application code
-    │   ├── repos/           # repositories (SQL via pgx)
-    │   ├── services/        # business services (e.g. foosvc)
-    │   └── specs/           # API endpoint paths and public types
-    ├── swagger/             # generated OpenAPI docs
-    └── test/                # integration tests (run in container)
+├── Makefile                   # top-level helpers that delegate to ./api
+├── docker-compose.yml         # dev stack (api, db, test runner)
+├── README.md                  # this file
+├── api/                       # the actual API service
+│   ├── Makefile               # API tasks (swag, test, lint, health, migrate)
+│   ├── Dockerfile             # production image
+│   ├── Dockerfile.dev         # dev image with hot-reload
+│   ├── go.mod, go.sum         # module (depends on github.com/aatuh/api-toolkit)
+│   ├── cmd/
+│   │   ├── api/               # HTTP server entrypoint
+│   │   │   └── main.go
+│   │   └── migrate/           # CLI for DB migrations
+│   │       └── main.go
+│   ├── internal/              # app internals (services, stores, http)
+│   │   ├── services/          # domain services (e.g. foosvc)
+│   │   ├── store/             # repositories (SQL via pgx)
+│   │   ├── validation/        # request validation helpers
+│   │   └── http/
+│   │       ├── handlers/      # thin HTTP handlers (mount under routes)
+│   │       ├── mapper/        # DTO <-> domain mapping
+│   │       └── ...
+│   ├── migrations/            # SQL migrations (embedded) + go:embed binder
+│   ├── src/
+│   │   └── specs/             # API endpoint paths and public types
+│   ├── swagger/               # generated OpenAPI docs
+│   └── test/                  # integration tests (run in container)
+└── web/                       # Next.js app + shared packages
+    ├── src/                   # app router pages and UI
+    ├── content/               # markdown content pages
+    └── packages/
+        ├── core/              # shared primitives (ui, http, theme, content)
+        └── services/app/      # app domain, adapters, hooks, config
 ```
 
 ## Key components
@@ -62,9 +70,9 @@ make health   # GET http://localhost:8000/health
   - `api/cmd/migrate`: CLI to run `up`, `down`, `status` using the
     same embedded migrations as the server.
 - Domain
-  - `api/src/services/foosvc`: example service showing patterns for
+  - `api/internal/services/foosvc`: example service showing patterns for
     validation, transactions, IDs, and clock usage.
-  - `api/src/repos`: data access with `pgx` pools and context.
+  - `api/internal/store`: data access with `pgx` pools and context.
 - HTTP
   - `api/internal/http/handlers`: decode → validate → service → encode.
   - Health at `/health`, metrics at `/metrics`, docs at `/docs`.
@@ -164,7 +172,7 @@ The version endpoint in `cmd/api` picks up the injected values automatically.
 
 ## Development flow
 
-1) Model your domain in `api/src/services` and `api/src/repos`.
+1) Model your domain in `api/internal/services` and `api/internal/store`.
 2) Add HTTP handlers in `api/internal/http/handlers` and mount under
    `api/src/specs/endpoints` paths.
 3) Add/modify migrations in `api/migrations` and run `make migrate-up`.

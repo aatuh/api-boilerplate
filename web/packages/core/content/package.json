@@ -1,0 +1,26 @@
+{
+  "name": "@api-boilerplate/content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/i18n-shared": "workspace:*",
+    "@api-boilerplate/layouts": "workspace:*",
+    "@api-boilerplate/ui": "workspace:*",
+    "gray-matter": "^4.0.3",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "zod": "^4.1.12"
+  },
+  "peerDependencies": {
+    "next": ">=13",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./markdown-content": "./src/markdown-content.tsx",
+    "./markdown-page": "./src/markdown-page.tsx",
+    "./markdown-pages": "./src/markdown-pages.ts"
+  }
+}

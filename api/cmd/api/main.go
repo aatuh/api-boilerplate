@@ -1,25 +1,19 @@
 package main
 
 import (
-	"api-boilerplate/internal/http/handlers"
-	"api-boilerplate/migrations"
-	"api-boilerplate/src/repos"
-	"api-boilerplate/src/services/foosvc"
-	"api-boilerplate/src/specs/endpoints"
 	"context"
+	"fmt"
 	"io/fs"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
-	"github.com/aatuh/api-toolkit/adapters/clock"
+	"api-boilerplate/internal/config"
+	"api-boilerplate/migrations"
+
 	"github.com/aatuh/api-toolkit/adapters/logzap"
-	"github.com/aatuh/api-toolkit/adapters/txpostgres"
-	"github.com/aatuh/api-toolkit/adapters/uuid"
-	"github.com/aatuh/api-toolkit/adapters/validation"
 	"github.com/aatuh/api-toolkit/bootstrap"
-	"github.com/aatuh/api-toolkit/config"
-	"github.com/aatuh/api-toolkit/endpoints/docs"
 	"github.com/aatuh/api-toolkit/endpoints/health"
 	versionep "github.com/aatuh/api-toolkit/endpoints/version"
 	"github.com/aatuh/api-toolkit/middleware/metrics"
@@ -38,9 +32,22 @@ var (
 // @version 1.0.0
 // @description REST API Boilerplate Documentation
 // @BasePath /api/v1
+func loggerFromEnv(env, level string) ports.Logger {
+	env = strings.ToLower(strings.TrimSpace(env))
+	switch env {
+	case "development", "dev", "":
+		return logzap.NewDevelopment(level)
+	case "staging", "production", "prod":
+		return logzap.NewProductionWithLevel(level)
+	default:
+		fmt.Printf("unknown ENV %q, defaulting to production logger\n", env)
+		return logzap.NewProductionWithLevel(level)
+	}
+}
+
 func main() {
-	log := logzap.NewProduction()
-	cfg := config.MustLoadFromEnv()
+	cfg := config.Load()
+	log := loggerFromEnv(cfg.Env, cfg.LogLevel)
 
 	ctx := context.Background()
 	pool := bootstrap.OpenPoolOrExit(ctx, cfg.DatabaseURL, 3*time.Second, log)
@@ -48,23 +55,18 @@ func main() {
 
 	if cfg.MigrateOnStart {
 		bootstrap.RunMigrationsOrExit(
-			ctx, cfg, log, []fs.FS{migrations.Migrations},
+			ctx, cfg.Config, log, []fs.FS{migrations.Migrations},
 		)
 	}
 
 	r := bootstrap.NewDefaultRouter(log)
 
+	docsHandler := setupDocsHandler(cfg, log)
+	healthManager := setupHealthManager(pool, cfg)
+
 	bootstrap.MountSystemEndpoints(r, bootstrap.SystemEndpoints{
-		Health: health.NewDefaultHandler(pool),
-		Docs: docs.NewHandler(docs.NewWithConfig(ports.DocsConfig{
-			Title:       "API Boilerplate Documentation",
-			Description: "REST API Boilerplate Documentation",
-			Version:     "1.0.0",
-			Paths:       ports.DefaultDocsPaths(),
-			EnableHTML:  true,
-			EnableJSON:  true,
-			EnableYAML:  false,
-		})),
+		Health: health.NewHandler(healthManager),
+		Docs:   docsHandler,
 		Version: versionep.NewHandler(versionep.Config{
 			Path: specs.Version,
 			Info: ports.VersionInfo{
@@ -76,16 +78,8 @@ func main() {
 		Metrics: metrics.PrometheusHandler(),
 	})
 
-	tx := txpostgres.New(pool)
-	clk := clock.NewSystemClock()
-	ids := uuid.NewUUIDGen()
-	val := validation.NewBasicValidator()
-
-	// Domain wiring
-	fooRepo := repos.NewFooRepo(pool)
-	fooSvc := foosvc.New(fooRepo, tx, log, clk, ids)
-	fooH := handlers.NewFooHandler(fooSvc, log, val)
-	r.Mount(endpoints.FooBase, fooH.Routes())
+	deps := buildAppDeps(log, pool)
+	mountAppRoutes(r, log, deps)
 
 	srvCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()

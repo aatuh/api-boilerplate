@@ -1,0 +1,16 @@
+{
+  "name": "@api-boilerplate/app-i18n",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/i18n-shared": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./config": "./src/config.ts",
+    "./locale-context": "./src/locale-context.tsx",
+    "./locale.server": "./src/locale.server.ts",
+    "./dictionaries": "./src/dictionaries/index.ts"
+  }
+}

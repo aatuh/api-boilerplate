@@ -1,0 +1,16 @@
+{
+  "name": "@api-boilerplate/app-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@api-boilerplate/env": "workspace:*",
+    "zod": "^4.1.12"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./api": "./src/api.ts",
+    "./app": "./src/app.ts",
+    "./public-env": "./src/public-env.ts"
+  }
+}

@@ -17,7 +17,7 @@ export API_SVC
 
 COMPOSE_FILES := -f docker-compose.yml
 ifneq (,$(or $(filter 1,$(TOOLKIT)),$(filter 1,$(API_SVC))))
-COMPOSE_FILES += -f ../docker-compose.toolkit.yml
+COMPOSE_FILES += -f docker-compose.toolkit.yml
 endif
 
 COMPOSE_ANSI ?= auto

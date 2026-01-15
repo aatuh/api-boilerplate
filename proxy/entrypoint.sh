@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Proxy configuration supports:
-# - PROXY_ROUTES: "pepe.local=cleanerx-web:3000,api.pepe.local=cleanerx-svc:8000"
+# - PROXY_ROUTES: "app.local=web:3000,api.app.local=api:8000"
 # - Fallback explicit pairs: WEB_DOMAIN/WEB_BACKEND, API_DOMAIN/API_BACKEND, etc.
 
 declare -a PAIRS=()
