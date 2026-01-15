@@ -1,8 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "REST API Boilerplate Documentation",
+        "title": "API Boilerplate API",
+        "contact": {},
+        "version": "1.0.0"
     },
+    "basePath": "/api/v1",
     "paths": {
         "/api/v1/foo": {
             "get": {
@@ -318,24 +322,19 @@
             "type": "object",
             "properties": {
                 "detail": {
-                    "type": "string",
-                    "example": "name is required"
+                    "type": "string"
                 },
                 "instance": {
-                    "type": "string",
-                    "example": "/api/v1/foo/123"
+                    "type": "string"
                 },
                 "status": {
-                    "type": "integer",
-                    "example": 400
+                    "type": "integer"
                 },
                 "title": {
-                    "type": "string",
-                    "example": "Bad Request"
+                    "type": "string"
                 },
                 "type": {
-                    "type": "string",
-                    "example": "https://example.com/validation-error"
+                    "type": "string"
                 }
             }
         },

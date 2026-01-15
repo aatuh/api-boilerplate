@@ -6,39 +6,54 @@ COMMIT ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
 DATE ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 LDFLAGS ?= -X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.date=$(DATE)
 
-.PHONY: help dev down logs swag migrate-build migrate-up migrate-down migrate-status migrate-new tidy test test-cached test-fast test-clean health build-bin
+TOOLKIT ?= 1
+API_TOOLKIT_PATH ?= ../api-toolkit
+export API_TOOLKIT_PATH
+
+API_SVC ?= 1
+API_SVC_PATH ?= ../api-svc
+export API_SVC
+
+COMPOSE_FILES := -f ../docker-compose.yml
+ifneq (,$(or $(filter 1,$(TOOLKIT)),$(filter 1,$(API_SVC))))
+COMPOSE_FILES += -f ../docker-compose.toolkit.yml
+endif
+
+DOCKER_COMPOSE := docker compose $(COMPOSE_FILES)
+
+.PHONY: help dev down logs codegen migrate-build migrate-up migrate-down migrate-status migrate-new tidy test test-cached test-fast test-clean health build-bin
 
 help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
 dev: ## Start development environment
-	@docker compose --env-file .env up api --build -d
+	@$(DOCKER_COMPOSE) --env-file .env up api --build -d
 
 down: ## Clean up containers and volumes
-	@docker compose down api -v
+	@$(DOCKER_COMPOSE) down api -v
 
 cycle: ## Cycle the containers down and up
 	@make down
 	@make dev
 
 logs: ## View the logs of the service
-	@docker compose logs -f api
+	@$(DOCKER_COMPOSE) logs -f api
 
-swag: ## Generate Swagger files
-	@docker compose exec api swag init -g cmd/api/main.go -o ./swagger
+codegen: ## Generate code
+	@$(DOCKER_COMPOSE) exec api swag init -g cmd/api/main.go -o ./swagger
 
 migrate-up: ## Apply migrations
-	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR up"
+	@$(DOCKER_COMPOSE) exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR up"
 
 migrate-down: ## Rollback migrations
-	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR --allow-down down"
+	@$(DOCKER_COMPOSE) exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR --allow-down down"
 
 migrate-status: ## Show status of the migrations
-	@docker compose exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR status"
+	@$(DOCKER_COMPOSE) exec api sh -c "go run ./cmd/migrate -dir \$$MIGRATIONS_DIR status"
 
 tidy: ## Tidy go modules
-	@docker compose exec api go mod tidy
+	@$(DOCKER_COMPOSE) exec api go mod tidy
 
 build-bin: ## Build local API binary with version metadata
 	@echo "🏗️ Building API binary '$(BIN)'"
@@ -56,8 +71,8 @@ CACHE_ENABLED ?= false
 
 test: ## Run tests
 	@echo "🧪 Running tests. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)' Fast: ${FAST}"
-	@docker compose up -d db api
-	@docker compose run --no-deps --rm \
+	@$(DOCKER_COMPOSE) up -d db api
+	@$(DOCKER_COMPOSE) run --no-deps --rm \
 		-e TEST_PATTERN='$(TEST_PATTERN)' \
 		-e FLAGS='$(FLAGS)' \
 		-e PKG='$(PKG)' \
@@ -70,8 +85,8 @@ test: ## Run tests
 
 test-cached: ## Run tests with caching enabled
 	@echo "🧪 Running cached tests. Pattern: '$(TEST_PATTERN)'  Flags: '$(FLAGS)'  Pkg: '$(PKG)' Fast: ${FAST} Cache TTL: '$(CACHE_TTL)'"
-	@docker compose up -d db api
-	@docker compose run --no-deps --rm \
+	@$(DOCKER_COMPOSE) up -d db api
+	@$(DOCKER_COMPOSE) run --no-deps --rm \
 		-e TEST_PATTERN='$(TEST_PATTERN)' \
 		-e FLAGS='$(FLAGS)' \
 		-e PKG='$(PKG)' \
@@ -84,24 +99,31 @@ test-cached: ## Run tests with caching enabled
 
 test-clean: ## Clean test cache
 	@echo "🧹 Cleaning test cache..."
-	@docker compose run --no-deps --rm test sh -c "rm -rf /tmp/test-cache .test-cache"
+	@$(DOCKER_COMPOSE) run --no-deps --rm test sh -c "rm -rf /tmp/test-cache .test-cache"
 
 fmt: ## Format Go code
 	@echo "🎨 Formatting Go code..."
-	@docker compose run --no-deps --rm api gofmt -s -w .
+	@$(DOCKER_COMPOSE) run --no-deps --rm api gofmt -s -w .
 	@echo "✅ Code formatted successfully"
 
 lint: ## Lint Go code
 	@echo "🔍 Linting Go code..."
-	@docker compose run --no-deps --rm api sh -c "go vet ./... && golangci-lint run"
+	$(DOCKER_COMPOSE) run --no-deps --rm api sh -c "go vet ./... && golangci-lint run"
 	@echo "✅ Code linted successfully"
 
 health: ## Check service healthiness (logs + curl)
 	@echo "🏥 Checking service healthiness..."
 	@echo "📋 Docker Compose logs (last 20 lines):"
-	@docker compose logs --tail=20 api
+	@$(DOCKER_COMPOSE) logs --tail=20 api
 	@echo ""
 	@echo "🌐 Health endpoint check:"
 	@curl -f http://localhost:8000/health || echo "❌ Health check failed"
 	@echo ""
 	@echo "✅ Health check completed"
+
+finalize: ## Thorough validity check and generation
+	@echo "✅ Finalizing code..."
+	make fmt
+	make lint
+	make test
+	make codegen

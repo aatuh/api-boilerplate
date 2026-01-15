@@ -1,3 +1,4 @@
+basePath: /api/v1
 definitions:
   types.CreateFooDTO:
     properties:
@@ -64,19 +65,14 @@ definitions:
   types.Problem:
     properties:
       detail:
-        example: name is required
         type: string
       instance:
-        example: /api/v1/foo/123
         type: string
       status:
-        example: 400
         type: integer
       title:
-        example: Bad Request
         type: string
       type:
-        example: https://example.com/validation-error
         type: string
     type: object
   types.UpdateFooDTO:
@@ -88,6 +84,9 @@ definitions:
     type: object
 info:
   contact: {}
+  description: REST API Boilerplate Documentation
+  title: API Boilerplate API
+  version: 1.0.0
 paths:
   /api/v1/foo:
     get:

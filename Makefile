@@ -7,48 +7,76 @@ export VERSION
 export COMMIT
 export DATE
 
+TOOLKIT ?= 1
+API_TOOLKIT_PATH ?= ../api-toolkit
+export API_TOOLKIT_PATH
+
+API_SVC ?= 1
+API_SVC_PATH ?= ../api-svc
+export API_SVC
+
+COMPOSE_FILES := -f docker-compose.yml
+ifneq (,$(or $(filter 1,$(TOOLKIT)),$(filter 1,$(API_SVC))))
+COMPOSE_FILES += -f ../docker-compose.toolkit.yml
+endif
+
+COMPOSE_ANSI ?= auto
+COMPOSE_PROGRESS ?= plain
+DOCKER_COMPOSE := docker compose --ansi $(COMPOSE_ANSI) --progress $(COMPOSE_PROGRESS)
+
 help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
 dev: ## Start development environment
-	@echo "🚀 Starting development environment (VERSION=$(VERSION), COMMIT=$(COMMIT))..."
-	@docker compose up -d
+	@echo "🚀 Starting development environment (VERSION=$(VERSION), COMMIT=$(COMMIT), TOOLKIT=$(TOOLKIT))..."
+	@if [ "$(TOOLKIT)" = "1" ]; then echo "🔧 Using local api-toolkit from '$(API_TOOLKIT_PATH)'"; fi
+	@$(DOCKER_COMPOSE) $(COMPOSE_FILES) up -d
 
 down: ## Clean up containers and volumes
 	@echo "🧹 Cleaning up..."
-	@docker compose down -v
+	@$(DOCKER_COMPOSE) $(COMPOSE_FILES) down -v
 
 cycle: ## Cycle the containers down and up
 	@echo "♻️ Cycling development environment..."
-	@make down
-	@make dev
+	@$(MAKE) down
+	@$(MAKE) dev
 
 logs: ## View the logs of the service
-	@docker compose logs -f
+	@$(DOCKER_COMPOSE) $(COMPOSE_FILES) logs -f
 
 codegen: ## Generate code
 	@echo "🔄 Generating code..."
-	@cd api && make swag
-	@echo "🔄 Code generated successfully"
+	cd api && make codegen
+	cd web && make codegen
 
 build: ## Build all Docker Compose services
 	@echo "🔨 Building all services..."
-	@make down
-	@docker compose build
+	@$(MAKE) down
+	@$(DOCKER_COMPOSE) $(COMPOSE_FILES) build
 
 test: ## Run tests
 	@echo "🧪 Running tests..."
-	@cd api && make test
+	cd api && make test
+	cd web && make test
 
 fmt: ## Format code
 	@echo "🎨 Formatting code..."
-	@cd api && make fmt
+	cd api && make fmt
+	cd web && make fmt
 
 lint: ## Lint code
 	@echo "🔍 Linting code..."
-	@cd api && make lint
+	cd api && make lint
+	cd web && make lint
 
 health: ## Check service healthiness
 	@echo "🏥 Checking service healthiness..."
-	@cd api && make health
+	cd api && make health
+
+finalize: ## Thorough validity check and generation
+	@echo "✅ Finalizing code..."
+	make fmt
+	make lint
+	make test
+	make codegen

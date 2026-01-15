@@ -34,6 +34,10 @@ var (
 	date    = "unknown"
 )
 
+// @title API Boilerplate API
+// @version 1.0.0
+// @description REST API Boilerplate Documentation
+// @BasePath /api/v1
 func main() {
 	log := logzap.NewProduction()
 	cfg := config.MustLoadFromEnv()

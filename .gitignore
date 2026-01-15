@@ -3,5 +3,8 @@
 !.gitignore
 !.env*.example
 
+**/go.work
+**/go.work.sum
+
 **/tmp/
 **/bin/

@@ -23,7 +23,6 @@ services:
     depends_on:
       db: { condition: service_healthy }
     environment:
-      - GOWORK=/app/go.work.container
       - VERSION=${VERSION:-dev}
       - COMMIT=${COMMIT:-none}
       - DATE=${DATE:-unknown}
@@ -33,7 +32,6 @@ services:
       - "${API_PORT:-8000}:8000"
     volumes:
       - ./api:/app
-      - ../api-toolkit:/api-toolkit
       - api_tmp:/app/tmp
       - api_bin:/app/bin
       - api_coverage:/app/.coverage
@@ -61,14 +59,12 @@ services:
       context: ./api
       dockerfile: ./Dockerfile.dev
     environment:
-      - GOWORK=/app/go.work.container
       - GOCACHE=/root/.cache/go-build
       - GOMODCACHE=/go/pkg/mod
     env_file:
       - api/.env.test
     volumes:
       - ./api:/app
-      - ../api-toolkit:/api-toolkit
       - test_tmp:/app/tmp
       - test_bin:/app/bin
       - test_coverage:/app/.coverage
@@ -101,7 +97,6 @@ services:
       - "80:80"
     depends_on:
       - api
-      - web
 
   stripe:
     container_name: api-boilerplate-stripe
@@ -145,3 +140,5 @@ volumes:
   test_test_cache:
   test_pkg:
   test_gocache:
+  mkcert_ca:
+  caddy_certs:

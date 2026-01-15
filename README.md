@@ -1,8 +1,8 @@
 # api-boilerplate
 
 Production-ready starter for HTTP APIs. It wires a clean architecture,
-sensible defaults, and an internal toolkit for routing, middleware,
-logging, DB access, migrations, validation, and docs.
+sensible defaults, and a shared toolkit module (`github.com/aatuh/api-toolkit`)
+for routing, middleware, logging, DB access, migrations, validation, and docs.
 
 ## Quick start
 
@@ -26,18 +26,13 @@ make health   # GET http://localhost:8000/health
 ```plaintext
 .
 ├── Makefile                 # top-level helpers that delegate to ./api
-├── docker compose.yml       # dev stack (api, db, test runner)
+├── docker-compose.yml       # dev stack (api, db, test runner)
 ├── README.md                # this file
 └── api/                     # the actual API service
     ├── Makefile             # API tasks (swag, test, lint, health, migrate)
     ├── Dockerfile           # production image
     ├── Dockerfile.dev       # dev image with hot-reload
-    ├── go.mod, go.sum       # module (replace to local toolkit wired)
-    ├── api-toolkit/         # internal toolkit (router, db, logging, etc.)
-    │   ├── bootstrap/       # helpers for DB, router, server, migrations
-    │   ├── middleware/      # json, metrics, timeout, trace, rate-limit...
-    │   ├── httpx/, specs/   # error helpers, path constants (metrics, etc.)
-    │   └── ...
+    ├── go.mod, go.sum       # module (depends on github.com/aatuh/api-toolkit)
     ├── cmd/
     │   ├── api/             # HTTP server entrypoint
     │   │   └── main.go
@@ -59,7 +54,7 @@ make health   # GET http://localhost:8000/health
 ## Key components
 
 - Toolkit bootstrap
-  - `api/api-toolkit/bootstrap`: `OpenAndPingDB`, `NewDefaultRouter`,
+  - `github.com/aatuh/api-toolkit/bootstrap`: `OpenAndPingDB`, `NewDefaultRouter`,
     `MountSystemEndpoints`, `StartServer`, `NewMigrator`.
 - Entrypoints
   - `api/cmd/api`: loads config, opens DB, runs migrations on start
@@ -73,6 +68,38 @@ make health   # GET http://localhost:8000/health
 - HTTP
   - `api/internal/http/handlers`: decode → validate → service → encode.
   - Health at `/health`, metrics at `/metrics`, docs at `/docs`.
+
+## Local development with `api-toolkit`
+
+This repo depends on the released module version of `github.com/aatuh/api-toolkit`. For local cross-repo development, prefer a Go workspace instead of committing `replace` directives.
+
+From a parent directory that contains both repos:
+
+```bash
+go work init ./api-boilerplate/api
+go work use ./api-toolkit
+```
+
+From the `api-boilerplate/` repo root:
+
+```bash
+go work init ./api
+go work use ../api-toolkit
+```
+
+To verify you’re using the published dependency versions (CI-like), run with `GOWORK=off`.
+
+Docker Compose can also opt into the local toolkit checkout:
+
+```bash
+make dev TOOLKIT=1 # defaults to ../api-toolkit
+
+# Optional: override toolkit checkout path
+make dev TOOLKIT=1 API_TOOLKIT_PATH=$HOME/src/api-toolkit
+
+# Equivalent docker compose invocation:
+API_TOOLKIT_PATH=$HOME/src/api-toolkit docker compose -f docker-compose.yml -f docker-compose.toolkit.yml up -d
+```
 
 ## Environment variables
 
@@ -106,7 +133,7 @@ make health       # show logs + curl health endpoint
 API-specific (from `api/`):
 
 ```bash
-make swag                 # regen swagger from cmd/api/main.go
+make codegen              # regen swagger from cmd/api/main.go
 make migrate-up           # apply migrations
 make migrate-down         # rollback (dangerous; off in server)
 make migrate-status       # show applied/pending migrations

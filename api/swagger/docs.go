@@ -329,24 +329,19 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "detail": {
-                    "type": "string",
-                    "example": "name is required"
+                    "type": "string"
                 },
                 "instance": {
-                    "type": "string",
-                    "example": "/api/v1/foo/123"
+                    "type": "string"
                 },
                 "status": {
-                    "type": "integer",
-                    "example": 400
+                    "type": "integer"
                 },
                 "title": {
-                    "type": "string",
-                    "example": "Bad Request"
+                    "type": "string"
                 },
                 "type": {
-                    "type": "string",
-                    "example": "https://example.com/validation-error"
+                    "type": "string"
                 }
             }
         },
@@ -366,12 +361,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "API Boilerplate API",
+	Description:      "REST API Boilerplate Documentation",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
